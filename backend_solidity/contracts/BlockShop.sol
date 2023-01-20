@@ -51,7 +51,7 @@ contract BlockShop {
 
      // create function to upload product to blockchain
     function UploadProduct( address _platformOwnerAccount,uint _productPrice, string memory _ownerMetadata, bytes32 _productStatus ) public {
-        require(_productPrice > 0, "NFT price must be greater than 0");
+        require(_productPrice > 0, "Product price must be greater than 0");
         // increment counter on every successful call on uploadproduct
         productCounter += 1;
         // create function to store each product
@@ -71,7 +71,7 @@ contract BlockShop {
         // conditions to meet for every buyproduct to be successful
         require(_id > 0 && _id <= productCounter, "Product does not exist " );
         require(msg.value >= productTotalPrice, "Ether balance is too low to purchase this item");
-        require(productStruct.productStatus =="Sold", "Product is no longer available, it has been bought");
+        require(productStruct.productStatus !="Sold", "Product is no longer available, it has been bought");
 
         // remit amount due to seller and charged fee to the ecommerce platform owner (platformOwnerAccount)
         productStruct.productOwnerAccount.transfer(productStruct.productPrice);
@@ -89,7 +89,7 @@ contract BlockShop {
 
     // create function to get total price (platform commission on every sale is 10%) 
     function GetTotalPrice (uint _id) view public returns(uint) {
-        return (Stagedproducts[_id].productPrice *((100 + 1) / 100));
+        return (Stagedproducts[_id].productPrice + ((Stagedproducts[_id].productPrice * 5) / 100));
     } 
 }
 
