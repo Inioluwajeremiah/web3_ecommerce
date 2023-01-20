@@ -60,8 +60,8 @@ describe ("BlockShop", () => {
     it ("test for staging products", async () => {
       const {blockShop, accountone, accounttwo} = await loadFixture(load_fixtures);
       await expect( blockShop.connect(accountone).UploadProduct('0xf47224216Aba73074aeC379F83058c795fc247e7', toWei(0.000005), "pinata hash", toBytes("staged") )).
-      to.emit(blockShop, "StageProductEvent").withArgs(1, accountOne.address,'0xf47224216Aba73074aeC379F83058c795fc247e7', toWei(0.000005), "pinata hash", toBytes("staged"));
-        , ethers.BigNumber.from(1673874904)
+      to.emit(blockShop, "StageProductEvent").withArgs(1, accountone.address,'0xf47224216Aba73074aeC379F83058c795fc247e7', toWei(0.000005), "pinata hash", toBytes("staged"));
+        // , ethers.BigNumber.from(1673874904)
     })
     it ("test for buying product", async () => {
       const {blockShop, accountone, accounttwo} = await loadFixture(load_fixtures);
@@ -70,7 +70,7 @@ describe ("BlockShop", () => {
     
       const stagedproduct = await blockShop.Stagedproducts(1);
       console.log("staged product 1", stagedproduct);
-      let productTotalPrice = await blockShop.GetTotalPrice(3);
+      let productTotalPrice = await blockShop.GetTotalPrice(1);
       console.log( 'total price', fromWei(productTotalPrice));
       console.log( 'staged product', stagedproduct.id);
       console.log( 'get counter', await blockShop.productCounter());
