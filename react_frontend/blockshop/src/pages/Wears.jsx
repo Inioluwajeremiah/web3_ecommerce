@@ -1,9 +1,10 @@
 import React from 'react'
+import LandingSection from '../components/LandingSection'
 
 const Wears = () => {
   return (
     <main>
-        
+        <LandingSection/>
         <section id='cooperate'>
             { cooperate.map()}
         </section>

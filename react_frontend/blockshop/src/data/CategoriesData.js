@@ -1,60 +1,116 @@
 export const ElectronicsCategories = [
     {
         name: "Television",
-        icon: ""
+        icon: "",
+        value: "television"
     },
     {
         name: "Phones and Accessories",
-        icon: ""
+        icon: "",
+        value: "phones"
+
     },
     {
         name: "Games",
-        icon: ""
+        icon: "",
+        value: "games"
     },
     {
         name: "Computer Hardware and Software",
-        icon: ""
+        icon: "",
+        value: "computer"
     },
      {
         name: "Sound and Music",
-        icon: ""
+        icon: "",
+        value: "sound"
     },
 ]
 
 export const WearsCategories = [
     {
-        name: "Cooperte",
-        icon: ""
+        name: "Corperate",
+        icon: "",
+        value: "corperate"
     },
     {
         name: "Native",
-        icon: ""
+        icon: "",
+        value: "native"
     },
     {
         name: "Casual",
-        icon: ""
+        icon: "",
+        value: "casual"
     },
     {
         name: "Sports",
-        icon: ""
+        icon: "",
+        value: "sports"
+    },
+    {
+        name: "Weather",
+        icon: "",
+        value: "weather"
     }
+
 ]
 
-export const Agriculture = [
+export const AgricultureCategories = [
     {
-        name: "Cash Crops",
-        icon: ""
+        name: "Farm produce",
+        icon: "/public/images/barn.png",
+        value: "produce"
     },
     {
         name: "Farm Machines",
-        icon: ""
+        icon: "/public/images/farmmachines.png",
+        value: "farmmachines"
     },
     {
         name: "Improved Seeds",
-        icon: ""
+        icon: "/public/images/seedlings.png",
+        value: "seeds"
     },
     {
         name: "Fertilizers",
-        icon: ""
-    }
+        icon: "/public/images/fertilizer.png",
+        value: "fertilizers"
+    },
+    {
+        name: "Herbicides, Fungicides and Pesticides",
+        icon: "/public/images/sprayer.png",
+        value: "herbicides"
+    },
 ]
+
+export const MajorCategories = [
+    {
+        name: "Agriculture",
+        value: "agriculture",
+        backgroundPicture: "/public/images/agriculture.jpg",
+        description: "Browse and buy  at best quality and price agricultural produce, " +
+            "machines, fertilizers, herbicides, fungicides, improved seelings etc. "
+    },
+    {
+        name: "Electronics",
+        value: "electronics",
+        backgroundPicture: "/public/images/electronics.jpg",
+        description: "Browse and buy the latest electronics gadgets and " +
+        "devices at best quality and best price."
+    },
+    {
+        name: "Wears",
+        value: "wears",
+        backgroundPicture: "/public/images/wears.jpg",
+        description: "Browse and buy the latest electronics gadgets and " +
+        "devices at best quality and best price."
+    },
+    // {
+    //     name: "",
+    //     value: "",
+    //     backgroundPicture: "",
+    //     description: ""
+    // }
+]
+

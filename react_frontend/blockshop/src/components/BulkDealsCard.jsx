@@ -1,15 +1,14 @@
 import React from 'react'
 
-// hot deals of cheap products to be displayed in between sections
-
-const HotDealsCard = ({image, priceTag, priceDiscount, priceDiscountPercentage}) => {
-
+const BulkDealsCard = ({image, name, quantity, priceTag, priceDiscount, priceDiscountPercentage}) => {
   return (
     <div>
         <div>
             <img src={image} alt="" />
         </div>
         <div>
+            <p>{name}</p>
+            <p>{quantity}</p>
             <p>{priceTag}</p>
             <p>{priceDiscount}</p>
             <p>{priceDiscountPercentage}</p>
@@ -18,4 +17,4 @@ const HotDealsCard = ({image, priceTag, priceDiscount, priceDiscountPercentage})
   )
 }
 
-export default HotDealsCard
+export default BulkDealsCard
