@@ -1,36 +1,37 @@
-import React from 'react';
-import logo from '/images/blockshop.png';
-import profilePic from '/images/avatar10.png';
-import { AiOutlineMenu, AiOutlineSearch} from 'react-icons/ai';
+import React, { useContext } from 'react'
+import { Outlet } from 'react-router-dom'
+import {IoMenuOutline} from 'react-icons/io5'
+import { ListData } from './ListData'
+import ListComponent from './ListComponent'
+import { NFTContext } from '../AgTContext'
+import { BlockShopContextInstance } from '../context/BlockShopContext'
 
 const Navbar = () => {
+    const {account, ConnectAccount} = useContext(BlockShopContextInstance);
+
   return (
-    <div className='flex flex-row fixed w-[100vw] h-[100px] justify-between shadow-lg py-2 px-4 mb-12 top-0'>
-        <div className='flex flex-row gap-2 items-center'>
-            <div className='md:w-20 md:h-20 rounded-full w-16 h-16'>
-                <img src={logo} alt="" />
+    <>
+        <nav className='flex fixed top-0 flex-row justify-between items-center w-full bg-[#000] text-white py-4 px-8 h-20'>
+            <div className='logo'>
+                <p><span className='text-blue-700 font-bold text-2xl'>AgT</span>Marketplace</p>
             </div>
-            <h1 className='text-2xl font-bold hidden md:inline'>BlockShop</h1>
-        </div>
-        <div className='flex flex-row items-center gap-2'>
-            <div className='hidden md:flex flex-row items-center gap-2 rounded bg-gray-500 p-2 justify-between'>
-                <input type="text" placeholder='Search product' className=' w-full px-2 rounded bg-gray-200'/>
-                <div className='' ><AiOutlineSearch/></div>
-            </div>
-            <div className='flex flex-row items-center md:gap-2 justify-between'>
-                <div className='items-center'>
-                    <p  className='text-[0.8rem]'>ethereum address</p>
-                    <p className='text-[0.8rem]'>Username</p>
+            <div className='flex flex-row justify-between'>
+                <ul className='flex flex-row justify-between items-center'>
+
+                   { NavData.map((item, index) => <ListComponent key={index} title={item.title} link={item.link} />)}
+                   {account.length> 0 ? <p className='text-blue-700'>{account.slice(0,5)}...{account.slice(account.length-5, account.length)}</p> :
+                    <button onClick={ConnectAccount} className="bg-blue-700 p-4 rounded-sm">Connect Wallet</button>
+                   }
+                </ul>
+                <div>
+                    <IoMenuOutline className='hidden'/>
                 </div>
-                <div className='md:w-20 md:h-20 rounded-full w-16 h-16'>
-                    <img src={profilePic} alt="profile picture" />
-                </div>
-                <span className='pl-2 md:hidden'><AiOutlineMenu/> </span>
-            </div>
             
-        </div>
-    </div>
+            </div>
+        </nav>
+        <Outlet/>
+    </>
   )
 }
 
-export default Navbar;
+export default Navbar
