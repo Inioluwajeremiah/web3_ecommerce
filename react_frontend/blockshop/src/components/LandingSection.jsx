@@ -6,4 +6,4 @@ const LandingSection = () => {
   )
 }
 
-export default LandingSection
+export default LandingSection;
