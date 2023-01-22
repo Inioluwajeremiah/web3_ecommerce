@@ -12,6 +12,19 @@ contract BlockShop {
         chargedFeePercentage = _chargedFeePercentage;
     }
 
+    struct Profile {
+        address profileAddress;
+        string profileImageHash;
+        string profileMetaData;
+        // string profileName;
+        // string storeName;
+        // string storeDescription;
+        // string Country;
+        // string State;
+        // string Location;
+        uint dateCreate;
+    }
+
     struct StageProduct {
         uint id;
         address payable productOwnerAccount;
@@ -46,13 +59,24 @@ contract BlockShop {
     // uint uploadtime,
         // uint boughttime
 
+    event ProfileEvent (address profileAddress, string profileImageHash, string ProfileMetaData, uint dateCreated);
+
+    // mapping for profile
+    mapping (address => Profile) public profiles;
     // create mapping for the staged products
     mapping (uint => StageProduct) public Stagedproducts;
-
     // create mapping for bought products
-    // mapping (uint => PurchaseProduct) public Purchasedproducts;
     mapping (uint => PurchaseProduct[]) public Purchasedproducts;
 
+    // create profile function
+    function createProfile (string memory _profileImageHash, string memory _profileMetaData) public {
+        //    check address 
+       require(msg.sender != address(0), "Wallet address required");
+        // add address to profile map   
+        profiles[msg.sender] = Profile(msg.sender, _profileImageHash, _profileMetaData, block.timestamp);
+        // emit profile event
+        emit ProfileEvent(msg.sender, _profileImageHash, _profileMetaData, block.timestamp);
+    }
      // create function to upload product to blockchain
     function UploadProduct( uint _productPrice, string memory _ownerMetadata ) public {
         require(_productPrice > 0, "Product price must be greater than 0");
