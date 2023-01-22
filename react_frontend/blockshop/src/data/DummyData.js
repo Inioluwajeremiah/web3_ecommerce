@@ -7,11 +7,19 @@ export const electronicsDummyData =  [
         name: name,
         quantity: quantity,
         priceTag: priceTag,
-        discount: priceDiscount,
         discountPercent: priceDiscountPercentage,
         discription: description,
-        status: ""
+        status: "",
+
 
     }
 
 ]
+
+{
+    productId: id,
+    metadata: [
+        address
+    ]
+
+}

@@ -10,6 +10,9 @@ const blockShop = await BlockShop.deploy();
 console.log(`BlockShop contract has been deployed to ${blockShop.address}`);
 
 // get signer
+// const provider = new ethers.providers.Web3Provider(window.ethereum)
+// await provider.send("eth_requestAccounts", []);
+// const signer = provider.getSigner()
 const [signer] = await ethers.getSigners();
 const signerAddress = signer.address;
 console.log("Signer address => ", signerAddress);

@@ -10,73 +10,95 @@ const toBytes = (byt) => ethers.utils.formatBytes32String(byt);
 
 describe ("BlockShop", () => {
 
-  let accountOne, accountTwo, BlockShop, blockShop;
-  let METADaATA = "pinata metadata";
-
-  // beforeEach (async function () {
-  //   BlockShop = await ethers.getContractFactory("BlockShop");
-  //   blockShop = await BlockShop.deploy();
-
-  //   [accountOne, accountTwo, ...accounts] = await ethers.getSigners();
-  // })
-
-  let load_fixtures = async () => {
+  const load_fixtures = async () => {
+    const chargeFeePercent = 1
     const BlockShop = await ethers.getContractFactory("BlockShop");
-    const blockShop = await BlockShop.deploy()
-    const [accountone, accounttwo] = await ethers.getSigners();
+    const blockShop = await BlockShop.deploy(chargeFeePercent)
+    const blockShopContractAddress = blockShop.address
+  
+    const [ accountone, accounttwo, accountthree, accountfour, accountfive] = await ethers.getSigners();
 
-    return {blockShop, accountone, accounttwo}
+    return {chargeFeePercent, blockShopContractAddress, blockShop, accountone, accounttwo, accountthree, accountfive}
   }
   
   describe ("Deployment", () => {
 
-    // it("test for uploading product", async () => {
-    //   // let {blockShop, accountone, accounttwo} = await loadFixture(load_fixtures);
-
-    //   console.log(accountOne.address, accountTwo.address);
-    //   await expect( blockShop.connect(accountOne).UploadProduct('0xf47224216Aba73074aeC379F83058c795fc247e7', toWei(2), "pinata hash", toBytes("staged") )).
-    //   to.emit(blockShop, "StageProductEvent").withArgs(1, accountOne.address,'0xf47224216Aba73074aeC379F83058c795fc247e7', toWei(2), "pinata hash", toBytes("staged"));
-    //   // , ethers.BigNumber.from(1673874904)
-    //   console.log( await blockShop.productCounter());
-    //   expect (await blockShop.productCounter()).to.equal(1);
-      
-    //   let stagedproduct = await blockShop.Stagedproducts(1);
-    //   expect (stagedproduct.id).to.equal(1)
-    //   expect (stagedproduct.productPrice).to.equal(toWei(2));
-    //   expect (stagedproduct.ownerMetadata).to.equal("pinata hash");
-    //   expect (stagedproduct.productStatus).to.equal(toBytes('staged'));
-    //   // ethers.BigNumber.from(stagedproduct.uploadtime).should.equal(ethers.BigNumber.from(1673874904));
-    //   console.log( 'get counter', await blockShop.productCounter());
-    // })
-
 // npx hardhat test
+    it ("Test for contract owner and charge fee percent", async() => {
+      const {blockShop, chargeFeePercent, accountone} = await loadFixture(load_fixtures);
+      expect(await blockShop.contractOwnerAccount()).to.equal(accountone.address);
+      expect(await blockShop.chargedFeePercentage()).to.equal(chargeFeePercent);
+    })
   })
+
+  describe ("Test for Profile features", )
 
   describe ("BlockShop ecommerce ", () => {
 
-    // beforeEach ( async function () {
-    //   await blockShop.connect(accountOne).UploadProduct('0xf47224216Aba73074aeC379F83058c795fc247e7', toWei(1), "pinata hash", toBytes("staged"));  
-    // })
-    it ("test for staging products", async () => {
-      const {blockShop, accountone, accounttwo} = await loadFixture(load_fixtures);
-      await expect( blockShop.connect(accountone).UploadProduct('0xf47224216Aba73074aeC379F83058c795fc247e7', toWei(0.000005), "pinata hash", toBytes("staged") )).
-      to.emit(blockShop, "StageProductEvent").withArgs(1, accountone.address,'0xf47224216Aba73074aeC379F83058c795fc247e7', toWei(0.000005), "pinata hash", toBytes("staged"));
-        // , ethers.BigNumber.from(1673874904)
-    })
-    it ("test for buying product", async () => {
-      const {blockShop, accountone, accounttwo} = await loadFixture(load_fixtures);
+
+    it ("test for uploading product", async () => {
+      const {blockShopContractAddress, blockShop, accountone, accounttwo} = await loadFixture(load_fixtures);
+      // connect and upload product
+      await blockShop.connect(accountone).UploadProduct(toWei(0.000005), "pinata hash");
+
       const productOwnerBalance = await accountone.getBalance();
       console.log("balance", fromWei(productOwnerBalance));
     
       const stagedproduct = await blockShop.Stagedproducts(1);
       console.log("staged product 1", stagedproduct);
-      let productTotalPrice = await blockShop.GetTotalPrice(1);
+      const productTotalPrice = await blockShop.GetTotalPrice(1);
       console.log( 'total price', fromWei(productTotalPrice));
       console.log( 'staged product', stagedproduct.id);
       console.log( 'get counter', await blockShop.productCounter());
-      // await expect(blockShop.connect(accountOne).BuyProduct(1, {value: productTotalPrice})).
-      // to.emit(blockShop, "PurchaseProductEvent").withArgs(1, accountOne.address, '0xf47224216Aba73074aeC379F83058c795fc247e7', accountTwo.address, toWei(1), "buyer meta data", "staged")
-  }) 
 
+      expect (stagedproduct.id).to.equal(1);
+      expect(stagedproduct.productPrice).to.equal(toWei(0.000005));
+      expect(stagedproduct.ownerMetadata).to.equal("pinata hash")
+      expect(stagedproduct.productStatus).to.equal(false)
+      
+    }) 
+
+    it ("Test for buying product", async () => {
+
+      const {blockShop, accountone, accounttwo, accountthree} = await loadFixture(load_fixtures);
+     
+      // connect account and stage product
+      await blockShop.connect(accounttwo).UploadProduct(toWei(0.000005), "pinata hash");
+
+      // get values of product staged and pass required arguement to the Buyproduct function
+      const stagedproduct = await blockShop.Stagedproducts(1);
+      console.log("staged product 1", stagedproduct);
+
+      const getTotalPrice = await blockShop.GetTotalPrice(1);
+      const productTotalPrice = fromWei(getTotalPrice)
+      console.log("get totlal price", getTotalPrice);
+      console.log( 'total price', productTotalPrice);
+      console.log( 'staged product id', stagedproduct.id);
+      console.log( 'product id by counter', await blockShop.productCounter());
+
+      // get and log product buyer balance (accounttthree)  
+      const productBuyerBalance = await accountthree.getBalance();
+      console.log("wei balance", productBuyerBalance);
+      console.log("ether balance", fromWei(productBuyerBalance));
+
+      
+      // set accounttwo to buy product and test for emitted values
+      await expect(blockShop.connect(accountthree).BuyProduct(1, "pinata hash", {value: getTotalPrice})).
+      to.emit(blockShop, "PurchaseProductEvent").withArgs(1, accounttwo.address, accountthree.address, toWei(0.000005), "pinata hash", true)
+
+      const purchased_Product = await blockShop.getProducts(1);
+      console.log("nested purchased products => ", purchased_Product );
+    })
+
+    it("Test for bought nested mapping", async () => {
+      const {blockShop, accountone, accounttwo, accountthree} = await loadFixture(load_fixtures);
+
+       // connect account and stage product
+       await blockShop.connect(accounttwo).UploadProduct(toWei(0.000005), "pinata hash");
+
+      //  const purchasedProduct = await blockShop.Purchasedproducts(1);
+      //  console.log("nested purchased produts => ", purchasedProduct );
+      //  expect(purchasedProduct.buyerMetadata).to.equal("pinata hash");
+    })
   })
 }) 
