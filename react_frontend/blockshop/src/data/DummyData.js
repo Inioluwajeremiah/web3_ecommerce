@@ -750,3 +750,5 @@ export const sound = [
         productNoPieces: 120,          
     },
 ]
+
+export const nothing = []
