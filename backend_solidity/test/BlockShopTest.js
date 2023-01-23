@@ -18,7 +18,7 @@ describe ("BlockShop", () => {
   
     const [ accountone, accounttwo, accountthree, accountfour, accountfive] = await ethers.getSigners();
 
-    return {chargeFeePercent, blockShopContractAddress, blockShop, accountone, accounttwo, accountthree, accountfive}
+    return {chargeFeePercent, blockShopContractAddress, blockShop, accountone, accounttwo, accountthree, accountfour, accountfive}
   }
   
   describe ("Deployment", () => {
@@ -31,7 +31,16 @@ describe ("BlockShop", () => {
     })
   })
 
-  describe ("Test for Profile features", )
+  describe ("Test for Profile features", () => {
+    
+    it ("Test for creating a user profile", async () => {
+      const {blockShop, accountone, accountfour} = await loadFixture(load_fixtures);
+
+      await expect (blockShop.connect(accountfour).createProfile("imageuri", "profile metadata")).
+      to.emit(blockShop, 'ProfileEvent').withArgs(accountfour.address, "imageuri", "profile metadata")
+
+    } )
+  })
 
   describe ("BlockShop ecommerce ", () => {
 

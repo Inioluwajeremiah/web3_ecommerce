@@ -4,7 +4,7 @@ pragma solidity ^0.8.17;
 contract BlockShop {
 
     uint public productCounter;
-     address payable public immutable contractOwnerAccount;
+    address payable public immutable contractOwnerAccount;
     uint public immutable chargedFeePercentage;
 
      constructor(uint _chargedFeePercentage) {
@@ -12,17 +12,10 @@ contract BlockShop {
         chargedFeePercentage = _chargedFeePercentage;
     }
 
+    // STRUCTS
     struct Profile {
         address profileAddress;
-        string profileImageHash;
         string profileMetaData;
-        // string profileName;
-        // string storeName;
-        // string storeDescription;
-        // string Country;
-        // string State;
-        // string Location;
-        uint dateCreate;
     }
 
     struct StageProduct {
@@ -31,22 +24,28 @@ contract BlockShop {
         uint productPrice;
         string ownerMetadata;
         bool productStatus;
+        bool received;
+        bool delivered;
     }
-    // uint uploadtime;
 
     struct PurchaseProduct {
         uint id;
         string buyerMetadata;
     }
-    // uint boughttime;
+
+    struct Cart {
+        uint productId;
+        address payable sellerAddress;
+        address payable buyerAddress;
+    }
+
+    // EVENTS
     event StageProductEvent  (
         uint id,
-        address productOwnerAccount,
+        address payable productOwnerAccount,
         uint productPrice,
         string ownerMetadata
-
     );
-    //  uint uploadtime
 
     event PurchaseProductEvent (
         uint id,
@@ -56,37 +55,42 @@ contract BlockShop {
         string buyerMetadata,
         bool status
     );
-    // uint uploadtime,
-        // uint boughttime
-
-    event ProfileEvent (address profileAddress, string profileImageHash, string ProfileMetaData, uint dateCreated);
-
+    event ProfileEvent (address profileAddress, string ProfileMetaData);
+    event CartEvent (uint _id, address payable seller, address payable buyer);
+    
+    // MAPPINGS
     // mapping for profile
     mapping (address => Profile) public profiles;
     // create mapping for the staged products
     mapping (uint => StageProduct) public Stagedproducts;
     // create mapping for bought products
     mapping (uint => PurchaseProduct[]) public Purchasedproducts;
+    // mapping for cart
+    mapping (address => Cart) public cartItems;
 
+
+    // FUNCTIONS
     // create profile function
-    function createProfile (string memory _profileImageHash, string memory _profileMetaData) public {
+    function createProfile (string memory _profileMetaData) public {
         //    check address 
        require(msg.sender != address(0), "Wallet address required");
         // add address to profile map   
-        profiles[msg.sender] = Profile(msg.sender, _profileImageHash, _profileMetaData, block.timestamp);
+        profiles[msg.sender] = Profile(msg.sender, _profileMetaData);
         // emit profile event
-        emit ProfileEvent(msg.sender, _profileImageHash, _profileMetaData, block.timestamp);
+        emit ProfileEvent(msg.sender, _profileMetaData);
+        // , block.timestamp
     }
+
      // create function to upload product to blockchain
     function UploadProduct( uint _productPrice, string memory _ownerMetadata ) public {
         require(_productPrice > 0, "Product price must be greater than 0");
         // increment counter on every successful call on uploadproduct
         productCounter += 1;
         // create function to store each product
-        Stagedproducts[productCounter] = StageProduct (productCounter, payable(msg.sender), _productPrice, _ownerMetadata, false); 
+        Stagedproducts[productCounter] = StageProduct (productCounter, payable(msg.sender), _productPrice, _ownerMetadata, false, false, false); 
         // Stagedproducts[productCounter] = StageProduct (productCounter, payable(msg.sender), payable(_contractOwnerAccount), _productPrice, _ownerMetadata, _productStatus, block.timestamp);   
         // emit stageproduct event
-        emit StageProductEvent (productCounter, msg.sender, _productPrice, _ownerMetadata);
+        emit StageProductEvent (productCounter, payable(msg.sender), _productPrice, _ownerMetadata);
         //  emit StageProductEvent (productCounter, msg.sender, _contractOwnerAccount, _productPrice, _ownerMetadata, _productStatus,block.timestamp);
     }
 
@@ -126,6 +130,13 @@ contract BlockShop {
     
     function getProducts(uint _productId) public view returns (PurchaseProduct[] memory) {
         return Purchasedproducts[_productId];
+    }
+
+    function ProductCart (uint _id, address payable _selleraddress) public {
+        cartItems[msg.sender] = Cart(_id, _selleraddress, payable(msg.sender));
+        emit CartEvent(_id, _selleraddress, payable(msg.sender) );
+        
+    
     }
 }
 
