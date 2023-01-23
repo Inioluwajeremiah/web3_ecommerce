@@ -6,37 +6,34 @@ import { NFTContext } from '../AgTContext';
 import FormHeader from '../components/FormHeader';
 import FormInput from '../components/FormInput';
 import axios from 'axios';
-// import { PINATA_API_JWT } from '../ipfconfig'
-
-const client = create({ url: "https://ipfs.infura.io:5001/api/v0" });
+import LabelText from './LabelText';
+import SelectComponent from './SelectComponent';
+import { AgricultureCategories, ElectronicsCategories, MajorCategories, WearsCategories } from '../data/CategoriesData';
 
 const AddProduct = () => {
 
-  const {marketContract, tokenContract} = useContext(NFTContext);
+  // const {marketContract, tokenContract} = useContext(NFTContext);
 
+  const [currentCategory, setCurrentCategory] = useState(''); 
+  const [currentSubCategory, setCurrentSubCategory] = useState('');
   const [fileImage, setFileImage] = useState(null);
   const [imageUri, setImageUri] = useState('');
-  const [nftTitle, setNftTitle] = useState({});
-  const [nftDescription, setNftDescription] = useState('');
-  const [nftPriceTag, setNftPriceTag] = useState('');
-
-  // const UploadImage = async (e) => {
-  //   e.preventDefault();
-  //   const file = e.target.files[0]
-  //   try {
-  //     const result = await client.add(file)
-  //     console.log(result);
-  //     setImageUri('https://ipfs.infura.io/ipfs/' + result.path)
-
-  //   } catch (error) {
-  //     alert(error)
-  //   }
-  // }
+  const [productName, setProductName] = useState('');
+  const [productDescription, setProductDescription] = useState('');
+  const [productPriceTag, setProductPriceTag] = useState('');
+  const [productQuantity, setProductQuantity] = useState(0);
+  const [discountPercent, setDiscountPercent] = useState(0);
 
 
+
+  const changeCategory = (e) => {
+    setCurrentCategory(e.target.value)
+    console.log(currentCategory);
+  }
   const UploadImage = async (event) => {
 
     event.preventDefault()
+
     const selectedImage = event.target.files[0];
     setFileImage(selectedImage);
 
@@ -71,14 +68,8 @@ const AddProduct = () => {
 
   const UploadMetaData = async(e) => {
     e.preventDefault()
-    if (!imageUri) {
-      
-    }else if (!nftTitle) {
-
-    } else if (!nftPriceTag) {
-
-    }else if (!nftDescription) {
-      
+    if (!imageUri || !productName || !productQuantity
+      || !productPriceTag || !productDescription || !discountPercent) {
     } else {
 
       try {
@@ -95,10 +86,15 @@ const AddProduct = () => {
             }
           },
           "pinataContent": {
-            title: nftTitle,
-            description: nftDescription,
+            productName: productName,
+            productPriceTag: productPriceTag,
             imageuri: imageUri,
-            pricetag: nftPriceTag
+            productQuantity: productQuantity,
+            discountPercent: discountPercent,
+            category: currentCategory,
+            subcategory: currentSubCategory,
+            productDescription: productDescription,
+            date: new Date()
           }
         });
 
@@ -118,68 +114,72 @@ const AddProduct = () => {
         
         console.log("result data => ", result.data);
         // const result = await client.add(JSON.stringify({imageUri, nftTitle, nftDescription})) 
-        mintNFT(result)         
+        uploadProduct(productPriceTag, result)         
       } catch (error) {
         alert(error)
       }
     }
   }
 
-  const mintNFT = async (result) => {
+  const uploadProduct = async (price,result) => {
     const uri = "https://gateway.pinata.cloud/ipfs/" + result.data.IpfsHash;
     console.log("uri => ", uri);
-    await (await tokenContract.mint(uri)).wait();
-    const transactionId = await tokenContract.transactionCounter();
-    console.log("transactionid", transactionId);
-    await (await tokenContract.setApprovalForAll(marketContract.address, true)).wait();
-    const PriceTag = ethers.utils.parseEther(nftPriceTag.toString());
-    console.log(PriceTag);
-    // call market place create function to mint nft, passing in the required arguements
-    // CreateNFTItem(uint _hgtTokenId, uint _nftPrice, IERC721 _hgtNFT)
-    await (await marketContract.CreateNFTItem(transactionId, PriceTag, tokenContract.address)).wait();
+    await (await blockShopContract.UploadProduct(price, uri)).wait();
   }
 
   return (
     <form action='/newnft' encType='multipart/form-data' className='max-w-[500px] mx-auto my-24 shadow-md p-4 border-[1px]'>
-      <FormHeader description="Upload new NFT"/>
+      <FormHeader description="Add New Product"/>
+      <LabelText title="Product name" />
       <FormInput 
         Type='text'
-        placeHolder="NFT name"
-        onCHangeText={(e) =>setNftTitle(e.target.value) }
+        placeHolder="Product Name"
+        onCHangeText={(e) =>setProductName(e.target.value.trim()) }
       />
+      <LabelText title="Price tag" />
        <FormInput 
-        Type='text'
-        placeHolder="NFT description"
-        onCHangeText={(e) =>setNftDescription(e.target.value) }
+        Type='number'
+        placeHolder="Product price tag (ETH)"
+        onCHangeText={(e) =>setProductPriceTag(e.target.value.trim()) }
       />
-       <FormInput 
-        Type='text'
-        placeHolder="NFT price tag (ETH)"
-        onCHangeText={(e) =>setNftPriceTag(e.target.value) }
+      <LabelText title="Quantity available" />
+      <FormInput 
+        Type='number'
+        placeHolder="Quantity available"
+        onCHangeText={(e) =>setProductQuantity(e.target.value.trim()) }
       />
+      <LabelText title="Discount in Percentage" />
+      <FormInput 
+        Type='number'
+        placeHolder="Discount in Percentage (e.g 5)"
+        onCHangeText={(e) =>setDiscountPercent(e.target.value.trim()) }
+      />
+      <LabelText title="Description" />
+       <div className='flex-row  '>
+        <textarea name="" id="" cols="30" rows="10"
+          className="border-solid rounded-sm border-[1px] border-[#ddd] mb-4 p-4 outline-none w-full"
+          onChange={(e) => setProductDescription(e.target.value.trim())}
+          placeHolder="Product description">
+        </textarea>
+      </div>
+      <LabelText title="Select Image" />
        <div>
         <input type="file" accept='image/*' onChange={UploadImage}
           className="border-solid rounded-sm border-[1px] border-[#ddd] mb-4 p-4 outline-none w-full"
         />
-        <InputLabel title="Author"/>
-            <InputComponent type="text" placeholder="Name" name="authorsname" id="authorsname" onChange={(atn) => setAuthorsName(atn.target.value)}/>
+      </div>
+      <LabelText title="Select Category" />
+      
+            <SelectComponent data={ MajorCategories} onChange={changeCategory} />
             
-            <InputLabel title="Title"/>
-            <InputComponent type="text" placeholder="Title" name="posttitle" id="posttitle" onChange={(title) => setPostTitle(title.target.value)}/>
-            
-            <InputLabel title="Select Category" />
-            <SelectComponent data={ SelectionData} onChange={changeCategory} />
-            
-            { (currentCategory == "") ? " " : <InputLabel title={`Select ${currentCategory} Subcategory`}/> }
+            { (currentCategory == "") ? " " : <LabelText title={`Select ${currentCategory} Subcategory`}/> }
             {
-                    (currentCategory == "Academy") ?  <SelectComponent data={ SubCategory.Academy } onChange={(cat) => setCurrentSubCategory(cat.target.value)} />
-                :   (currentCategory == "Climate") ?  <SelectComponent data={ SubCategory.Climate } onChange={(cat) => setCurrentSubCategory(cat.target.value)} />
-                :   (currentCategory == "Finance") ?  <SelectComponent data={ SubCategory.Finance } onChange={(cat) => setCurrentSubCategory(cat.target.value)} />
-                :   (currentCategory == "Politics") ?  <SelectComponent data={ SubCategory.Politics } onChange={(cat) => setCurrentSubCategory(cat.target.value)} />
-                :   (currentCategory == "Technology") ?  <SelectComponent data={ SubCategory.Technology } onChange={(cat) => setCurrentSubCategory(cat.target.value)} />
+                    (currentCategory == "Agriculture") ?  <SelectComponent data={ AgricultureCategories } onChange={(evt) => setCurrentSubCategory(evt.target.value)} />
+                :   (currentCategory == "Electronics") ?  <SelectComponent data={ ElectronicsCategories } onChange={(evt) => setCurrentSubCategory(evt.target.value)} />
+                :   (currentCategory == "Wears") ?  <SelectComponent data={ WearsCategories } onChange={(evt) => setCurrentSubCategory(evt.target.value)} />
                 :   ""
             }
-       </div> 
+        
        <div className='flex flex-row justify-center items-center '>
         <button onClick={UploadMetaData} className="bg-green-700 text-white p-4 rounded-md hover:tracking-widest ease-in-out duration-500">
           Upload NFT

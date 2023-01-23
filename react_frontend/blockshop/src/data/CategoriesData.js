@@ -88,21 +88,21 @@ export const MajorCategories = [
     {
         name: "Agriculture",
         value: "agriculture",
-        backgroundPicture: "/public/images/agriculture.jpg",
+        image: "/public/images/agriculture.jpg",
         description: "Browse and buy  at best quality and price agricultural produce, " +
             "machines, fertilizers, herbicides, fungicides, improved seelings etc. "
     },
     {
         name: "Electronics",
         value: "electronics",
-        backgroundPicture: "/public/images/electronics.jpg",
+        image: "/public/images/electronics.jpg",
         description: "Browse and buy the latest electronics gadgets and " +
         "devices at best quality and best price."
     },
     {
         name: "Wears",
         value: "wears",
-        backgroundPicture: "/public/images/wears.jpg",
+        image: "/public/images/wears.jpg",
         description: "Browse and buy the latest electronics gadgets and " +
         "devices at best quality and best price."
     },

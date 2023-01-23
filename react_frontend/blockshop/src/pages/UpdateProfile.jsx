@@ -1,16 +1,16 @@
 import React from 'react'
 import DashboardLeftNav from '../components/dashboardcomponents/DashboardLeftNav'
-import DashboardMain from '../components/dashboardcomponents/DashboardMain'
 import DashboardRightNav from '../components/dashboardcomponents/DashboardRightNav'
+import Profile from '../components/Profile'
 
-const Dashboard = () => {
+const UpdateProfile = () => {
   return (
     <div>
         <DashboardLeftNav/>
-        <DashboardMain/>
+        <Profile/>
         <DashboardRightNav/>
     </div>
   )
 }
 
-export default Dashboard
+export default UpdateProfile

@@ -8,7 +8,7 @@ const BlockShopContext = ({...children}) => {
   return (
     <BlockShopContextInstance.Provider  value = {{}}>
 
-        {...children}
+        {/* {...children} */}
 
     </BlockShopContextInstance.Provider>
   )
