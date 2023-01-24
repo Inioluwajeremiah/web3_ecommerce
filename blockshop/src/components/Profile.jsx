@@ -8,10 +8,12 @@ import SelectComponent from './SelectComponent';
 import LabelText from './LabelText';
 import { MajorCategories } from '../data/CategoriesData';
 import TitleText from './TitleText';
+import { PINATA_API_KEY, PINATA_API_SECRET_KEY , PINATA_API_JWT} from '../../ipfsconfig';
+import Spinner from './Spinner';
 
 const Profile = () => {
 
-  const {marketContract, tokenContract} = useContext(BlockShopContextInstance);
+  const {BlockShopContract, account} = useContext(BlockShopContextInstance);
 
   const [currentCategory, setCurrentCategory] = useState(''); 
   const [currentSubCategory, setCurrentSubCategory] = useState('');
@@ -29,6 +31,8 @@ const Profile = () => {
   const [country, setCountry] = useState('');
   const [state, setState] = useState('');
   const[storeAddress, setAddress] = useState('');
+  const [loading, setLoading] = useState(false)
+
 
 
   const changeCategory = (e) => {
@@ -40,8 +44,9 @@ const Profile = () => {
 const UploadProfileImage = async (event) => {
     event.preventDefault()
     const selectedImage = event.target.files[0];
-    console.log("jwt token", process.env.REACT_APP_PINATA_API_JWT);
+    // console.log("jwt token", process.env.REACT_APP_PINATA_API_JWT);
     if (selectedImage)  {
+      setLoading(true)
         try {
             const formData = new FormData();
             formData.append("file", selectedImage); 
@@ -52,7 +57,7 @@ const UploadProfileImage = async (event) => {
                 data: formData,
                 headers: {
                     "Content-Type": "multipart/form-data",
-                    "Authorization": 'Bearer ' + process.env.REACT_APP_PINATA_API_JWT
+                    "Authorization": 'Bearer ' +  PINATA_API_JWT
                 },
             });
             // get hCID of the uploaded image
@@ -60,7 +65,7 @@ const UploadProfileImage = async (event) => {
             console.log(uploadFile.data.IpfsHash);
             console.log("hash => ", hash);
             setProfileImageUri(hash)
-            console.log("image hash => ", imageUri);    
+            setLoading(false)   
         } catch (error) {
             console.log("Error sending File to IPFS: ")
             console.log(error.message, error.request, error.response)
@@ -74,9 +79,10 @@ const UploadStoreImage = async (event) => {
   event.preventDefault()
   const selectedImage = event.target.files[0];
 
-  console.log("jwt token", process.env.REACT_APP_PINATA_API_JWT);
+  // console.log("jwt token", process.env.REACT_APP_PINATA_API_JWT);
 
   if (selectedImage)  {
+    setLoading(true)
       try {
           const formData = new FormData();
           formData.append("file", selectedImage); 
@@ -95,6 +101,7 @@ const UploadStoreImage = async (event) => {
           console.log(uploadFile.data.IpfsHash);
           console.log("hash => ", hash);
           setStoreImageUri(hash)
+          setLoading(false)
           console.log("image hash => ", imageUri);    
       } catch (error) {
           console.log("Error sending File to IPFS: ")
@@ -111,6 +118,7 @@ const UploadStoreImage = async (event) => {
       !instagramLink || !whatsAppLink || !twitterLink ||
       !email || !country || !state || !storeAddress
        ) {
+        alert('update all field')
       
     } else {
 
@@ -147,6 +155,8 @@ const UploadStoreImage = async (event) => {
           }
         });
 
+        
+
         console.log("data data => ", data_data);
 
         const config = {
@@ -154,7 +164,7 @@ const UploadStoreImage = async (event) => {
           url: 'https://api.pinata.cloud/pinning/pinJSONToIPFS',
           headers: { 
             'Content-Type': 'application/json', 
-            "Authorization": 'Bearer ' + process.env.REACT_APP_PINATA_API_JWT
+            "Authorization": 'Bearer ' + PINATA_API_JWT
           },
           data : data_data
         };
@@ -162,23 +172,25 @@ const UploadStoreImage = async (event) => {
         const result = await axios(config);
         
         console.log("result data => ", result.data);
-        // const result = await client.add(JSON.stringify({imageUri, nftTitle, nftDescription})) 
-        createProfile(result)         
+        const uri = "https://gateway.pinata.cloud/ipfs/" + result.data.IpfsHash;
+      console.log("uri => ", uri);
+      await blockShop.createProfile(uri);
       } catch (error) {
         alert(error)
       }
     }
   }
 
-  const createProfile = async (result) => {
-    const uri = "https://gateway.pinata.cloud/ipfs/" + result.data.IpfsHash;
-    console.log("uri => ", uri);
-    await (await blockShop.createProfile(uri)).wait();
-  }
+  // const createProfile = async (result) => {
+    // const uri = "https://gateway.pinata.cloud/ipfs/" + result.data.IpfsHash;
+    // console.log("uri => ", uri);
+    // await (await blockShop.createProfile(uri)).wait();
+  // }
 
   return (
     <section className='w-full  p-4'>
       <TitleText title ="Update Profile"/>
+      {loading ? <Spinner/> : ""}
       <form action='/Profile' encType='multipart/form-data' className='max-w-[700px] mx-auto my-2 shadow-md p-4 border-[1px]'>
         <FormHeader/>
         <LabelText title="Full name" />

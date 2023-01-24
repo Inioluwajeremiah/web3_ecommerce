@@ -2,13 +2,11 @@ import React, { useContext, useState } from 'react'
 import { ethers } from 'ethers';
 import FormHeader from '../components/FormHeader';
 import FormInput from '../components/FormInput';
-import axios from 'axios';
 import LabelText from './LabelText';
 import SelectComponent from './SelectComponent';
 import { AgricultureCategories, ElectronicsCategories, MajorCategories, WearsCategories } from '../data/CategoriesData';
 import { BlockShopContextInstance } from '../context/BlockShopContext';
 import TitleText from './TitleText';
-import { PINATA_API_KEY, PINATA_API_SECRET_KEY , PINATA_API_JWT} from '../../ipfsconfig';
 import Spinner from './Spinner';
 
 const AddProduct = () => {

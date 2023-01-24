@@ -1,23 +1,27 @@
 import React from 'react'
+import { useContext } from 'react'
 import {FcElectronics} from 'react-icons/fc'
 import {GiFarmTractor, GiClothes} from 'react-icons/gi'
+import { BlockShopContextInstance } from '../../context/BlockShopContext'
 
 const DashboardMain = () => {
+
+    const {AgricultureArray, ElectronicsArray, WearsArray, AllproductsArra} = useContext(BlockShopContextInstance)
 
     const AnalyticsCardData = [
         {
             title: "Agriculture",
-            score: 200,
+            score: AgricultureArray.length,
             icon: GiFarmTractor
         },
         {
             title: "Electronics",
-            score: 250,
+            score: ElectronicsArray.length,
             icon: FcElectronics
         },
         {
             title: "Wears",
-            score: 2000,
+            score: WearsArray.length,
             icon: GiClothes
         }
         
