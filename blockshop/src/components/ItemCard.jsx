@@ -23,12 +23,13 @@ const ItemCard = ({id, imgSrc, productName, productDiscountPrice, productDiscoun
             </div>
             
         </Link>
-        <Link  to={`/cart/${productName + id}`}  
+        <Link  to={`/preview/${productName + id}`}  
             state={{
-              itemData: catData.filter((item) => item.id == id)
+              itemData: catData.filter((item) => item.id == id),
+              id:id.toString()
             }}
             className='bg-[#330066] text-white p-4  mt-2 w-full mx-auto items-center justify-center rounded-sm flex flex-row gap-2'>
-            Add to cart <AiOutlineShoppingCart/>
+            Buy Now <AiOutlineShoppingCart/>
         </Link>
     </div>
   )
