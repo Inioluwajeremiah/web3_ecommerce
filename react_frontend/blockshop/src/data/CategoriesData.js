@@ -57,6 +57,7 @@ export const WearsCategories = [
 ]
 
 export const AgricultureCategories = [
+
     {
         name: "Farm produce",
         icon: "/public/images/barn.png",
@@ -81,7 +82,7 @@ export const AgricultureCategories = [
         name: "Herbicides, Fungicides and Pesticides",
         icon: "/public/images/sprayer.png",
         value: "herbicides"
-    },
+    }
 ]
 
 export const MajorCategories = [

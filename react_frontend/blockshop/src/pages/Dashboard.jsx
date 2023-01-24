@@ -5,10 +5,12 @@ import DashboardRightNav from '../components/dashboardcomponents/DashboardRightN
 
 const Dashboard = () => {
   return (
-    <div>
+    <div className='flex flex-row gap-4 justify-between p-4 mt-24'>
         <DashboardLeftNav/>
-        <DashboardMain/>
-        <DashboardRightNav/>
+        <div className='flex flex-col lg:flex-row lg:justify-between w-full px-4 gap-4'>
+          <DashboardMain/>
+          <DashboardRightNav/>
+        </div>
     </div>
   )
 }

@@ -1,18 +1,16 @@
-import React from 'react'
 import React, { useContext, useState } from 'react'
-import { create } from 'ipfs-http-client'
 import { ethers } from 'ethers';
-import { NFTContext } from '../AgTContext';
 import FormHeader from '../components/FormHeader';
 import FormInput from '../components/FormInput';
 import axios from 'axios';
 import LabelText from './LabelText';
 import SelectComponent from './SelectComponent';
 import { AgricultureCategories, ElectronicsCategories, MajorCategories, WearsCategories } from '../data/CategoriesData';
+import { BlockShopContextInstance } from '../context/BlockShopContext';
 
 const AddProduct = () => {
 
-  // const {marketContract, tokenContract} = useContext(NFTContext);
+  const {BlockShopContract} = useContext(BlockShopContextInstance);
 
   const [currentCategory, setCurrentCategory] = useState(''); 
   const [currentSubCategory, setCurrentSubCategory] = useState('');
@@ -124,12 +122,14 @@ const AddProduct = () => {
   const uploadProduct = async (price,result) => {
     const uri = "https://gateway.pinata.cloud/ipfs/" + result.data.IpfsHash;
     console.log("uri => ", uri);
-    await (await blockShopContract.UploadProduct(price, uri)).wait();
+    await (await BlockShopContract.UploadProduct(price, uri)).wait();
   }
 
   return (
-    <form action='/newnft' encType='multipart/form-data' className='max-w-[500px] mx-auto my-24 shadow-md p-4 border-[1px]'>
-      <FormHeader description="Add New Product"/>
+    <section className='w-full  p-4'>
+      <h1 className='text-center'>Add New Product</h1>
+      <form action='/newnft' encType='multipart/form-data' className='max-w-[700px] mx-auto shadow-md p-4 border-[1px]'>
+      <FormHeader />
       <LabelText title="Product name" />
       <FormInput 
         Type='text'
@@ -159,7 +159,7 @@ const AddProduct = () => {
         <textarea name="" id="" cols="30" rows="10"
           className="border-solid rounded-sm border-[1px] border-[#ddd] mb-4 p-4 outline-none w-full"
           onChange={(e) => setProductDescription(e.target.value.trim())}
-          placeHolder="Product description">
+          placeholder="Product description">
         </textarea>
       </div>
       <LabelText title="Select Image" />
@@ -181,12 +181,14 @@ const AddProduct = () => {
             }
         
        <div className='flex flex-row justify-center items-center '>
-        <button onClick={UploadMetaData} className="bg-green-700 text-white p-4 rounded-md hover:tracking-widest ease-in-out duration-500">
-          Upload NFT
+        <button onClick={UploadMetaData} className="bg-[#330066] text-white p-4 rounded-md hover:tracking-widest ease-in-out duration-500">
+          Upload Product
         </button>
        </div>
         
     </form>
+    </section>
+ 
     
   )
 }

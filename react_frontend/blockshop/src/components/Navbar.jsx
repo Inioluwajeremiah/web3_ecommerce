@@ -7,12 +7,11 @@ import { ListData } from '../data/ListData'
 import logo from '/public/images/blockshop.png'
 
 const Navbar = () => {
-    // const {account, ConnectAccount} = useContext(BlockShopContextInstance);
+    const {account, ConnectAccount} = useContext(BlockShopContextInstance);
 
-    const account = 'flex fixed top-0 flex-row justify-between'
-    const ConnectAccount = () => {
-        
-    }
+    const toggleMenu = ()
+
+
   return (
     <>
         <nav className='flex fixed top-0 flex-row justify-between items-center w-full bg-white text-[#1e293b] py-4 px-8 h-20 shadow-md'>
@@ -20,10 +19,9 @@ const Navbar = () => {
                 <div className='h-16 w-16'>
                     <img src={logo} alt="" />
                 </div>
-                <p className='text-[#1e293b]'><span className='text-[#330066] font-bold text-2xl'>Block</span>Shop</p>
-            </div>
-            <div className='flex flex-row justify-between'>
-                <ul className='flex flex-row justify-between items-center'>
+idden            </div>
+            <div className='flex flex-row justify-between items-center mt-32 lg:mt-0'>
+                <ul className='lg:flex flex-row justify-between items-center mt-32 lg:mt-0'>
 
                    {ListData.map((item, index) => <ListComponent key={index} title={item.title} link={item.link} />)}
                    {account.length> 0 ? <p className='text-blue-700'>{account.slice(0,5)}...{account.slice(account.length-5, account.length)}</p> :
@@ -31,7 +29,7 @@ const Navbar = () => {
                    }
                 </ul>
                 <div>
-                    <IoMenuOutline className='hidden'/>
+                    <IoMenuOutline id='navicon' className=''/>
                 </div>
             
             </div>

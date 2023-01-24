@@ -1,104 +1,73 @@
 import React from 'react'
+import BulkDealsCard from '../components/BulkDealsCard';
+import BulkSectionComponent from '../components/BulkSectionComponent';
 import CategoriesCard from '../components/CategoriesCard';
+import HotDealsCard from '../components/HotDealsCard';
 import LandingSection from '../components/LandingSection';
+import SectionComponent from '../components/SectionComponent';
+import TitleText from '../components/TitleText';
 import { AgricultureCategories, MajorCategories } from '../data/CategoriesData'
-import { phones } from '../data/DummyData';
+import { computer, games, phones, sound, television } from '../data/DummyData';
 
 const Agriculture = () => {
   return (
-    <main>
+    <main className='w-[100%] items-center justify-center px-4 '>
       <LandingSection
-      image = {MajorCategories[0].image}
-      title = {MajorCategories[0].name}
-      subtitle = {MajorCategories[0].description}
-      />
-      {AgricultureCategories.map((item, index) =>
-          <CategoriesCard key={index}
-            imgsrc={item.icon}
-            name ={item.value}
-          />
-        ) 
-      }
-      <section id='cashcrops'>
-          {/* { cashcrops.map()} */}
-          {
-          phones.map((item, index) =>  
-          <ItemCard key ={index}
-            imgSrc={item.imageuri}
-            productName={item.productName}
-            productDescription={item.productDescription}
-            productPriceTag={item.productPriceTag}
-            productDiscountPercent={item.productDiscountPercent}
-            productDiscountPrice = {item.productDiscountPrice}
-            productNoPieces = {item.productNoPieces}
-            id={item.id}
-            catData = {phones}
-          />
-        )
-      }
-      </section>
+        image = {MajorCategories[0].image}
+        title = {MajorCategories[0].name}
+        subtitle = {MajorCategories[0].description}
+        />
 
-      <section id='farmmachines'>
-          {/* {farmmachines.map()} */}
-          {
-          phones.map((item, index) =>  
-          <ItemCard key ={index}
-            imgSrc={item.imageuri}
-            productName={item.productName}
-            productDescription={item.productDescription}
-            productPriceTag={item.productPriceTag}
-            productDiscountPercent={item.productDiscountPercent}
-            productDiscountPrice = {item.productDiscountPrice}
-            productNoPieces = {item.productNoPieces}
-            id={item.id}
-            catData = {phones}
-          />
-        )
-      }
-      </section>
-
-        {/* display agric hotdeals here */}
-         {/* {agricHotdeals.map()} */}
-
-        <section id='improvedseeds'>
-            {/* {improvedseeds.map()} */}
-            {
-           phones.map((item, index) =>  
-           <ItemCard key ={index}
-             imgSrc={item.imageuri}
-             productName={item.productName}
-             productDescription={item.productDescription}
-             productPriceTag={item.productPriceTag}
-             productDiscountPercent={item.productDiscountPercent}
-             productDiscountPrice = {item.productDiscountPrice}
-             productNoPieces = {item.productNoPieces}
-             id={item.id}
-             catData = {phones}
-           />
-         )
-        }
+        {/* categories sliding menu */}
+          <section className='flex overflow-x-scroll gap-4 justify-between p-4 scrollbar-hide'>
+          { AgricultureCategories.map((item, index) =>
+              <CategoriesCard key={index}
+                imgsrc={item.icon}
+                title ={item.value}
+              />
+            ) 
+          }
+          
         </section>
-        
-          {/* display bulk items here */}
-          {/* {agricBulkProducts.map()} */}
-        <section id='fertilizers'>
-            {/* {fertilizers.map()} */}
-            {
-           phones.map((item, index) =>  
-           <ItemCard key ={index}
-             imgSrc={item.imageuri}
-             productName={item.productName}
-             productDescription={item.productDescription}
-             productPriceTag={item.productPriceTag}
-             productDiscountPercent={item.productDiscountPercent}
-             productDiscountPrice = {item.productDiscountPrice}
-             productNoPieces = {item.productNoPieces}
-             id={item.id}
-             catData = {phones}
-           />
-         )
+      
+      <TitleText title="Hot Deals"/>
+      <div className='flex overflow-x-scroll gap-4 justify-between p-4 scrollbar-hide'> 
+          {television.map((item, index) => 
+        <HotDealsCard key = {index}
+          imgSrc={item.imageuri}
+          productPriceTag ={item.productPriceTag}
+          productName = {item.productName}
+          productDiscountPercent={item.productDiscountPercent}
+          productDiscountPrice =  {(item.productPriceTag * item.productDiscountPercent) / 100}
+          productNoPieces = {item.productNoPieces}
+          id={item.id}
+          catData = {television}
+        />
+        )}
+      </div>
+
+      <SectionComponent id="cashcrops" dataToMap={television} title="Televison" />      
+      
+      <TitleText title="Bulk Sales"/>
+      <div className='flex overflow-x-scroll gap-4 justify-between p-4 scrollbar-hide'> 
+          {television.map((item, index) => 
+            <BulkDealsCard key={index}
+              imgSrc = {item.imageuri}
+              productName = {item.productName}
+              quantity = {item.productNoPieces}
+              productPriceTag = {item.productPriceTag}
+              catData = {television}
+            />
+          )
         }
-        </section>
+      </div>
+
+      {/* <SectionComponent id="farmmachines" dataToMap={computer} title="Computer Software and Haedware"/>
+      <SectionComponent id="improvedseeds" dataToMap={games}  title="Games"/>
+      <SectionComponent id='fertilizers' dataToMap={phones} title="Phones and Accessories"/>
+      <SectionComponent dataToMap={sound} title="Sound and Music"/> */}
+      
+   
     </main>
   )
 }

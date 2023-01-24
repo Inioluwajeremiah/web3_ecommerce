@@ -1,26 +1,29 @@
 import React from 'react'
+import {FcElectronics} from 'react-icons/fc'
+import {GiFarmTractor, GiClothes} from 'react-icons/gi'
 
 const DashboardMain = () => {
+
     const AnalyticsCardData = [
         {
             title: "Agriculture",
             score: 200,
-            icon: "/public/images/agriculture.jpg"
+            icon: GiFarmTractor
         },
         {
             title: "Electronics",
             score: 250,
-            icon: "/public/images/electronics.jpg"
+            icon: FcElectronics
         },
         {
             title: "Wears",
             score: 2000,
-            icon: "/public/images/wears.jpg"
+            icon: GiClothes
         }
         
     ]
   return (
-    <div>
+    <div className=' w-full'>
           <section id='analytics' className='mx-4 shadow-lg p-4 mt-12'>
             <h2 className='text-text-color font-bold text-lg mb-2'>Analytics</h2>
             <div className='flex flex-row flex-wrap gap-2 items-center text-text-color p- mb-8 mx-[auto]'>

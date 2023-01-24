@@ -1,11 +1,12 @@
 import React from 'react'
 import ItemCard from './ItemCard'
+import TitleText from './TitleText'
 
-const SectionComponent = ({dataToMap, title}) => {
+const SectionComponent = ({id, dataToMap, title}) => {
   return (
-    <section id='#television' className='w-[100%] mx-auto items-center justify-center'>
-        <p className='text-center text-lg font-bold p-2'>{title}</p>
-    <div className='flex flex-row flex-wrap'>
+    <section id={`#${id}`} className='w-full mx-[auto] items-center'>
+    <TitleText title={title}/>
+    <div className='flex flex-row flex-wrap items-center justify-center'>
     {
       dataToMap.map((item, index) =>  
         <ItemCard key ={index}

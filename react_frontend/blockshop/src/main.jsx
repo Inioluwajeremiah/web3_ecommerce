@@ -6,9 +6,9 @@ import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   
-  // <BlockShopContext>
+  <BlockShopContext>
     <React.StrictMode>
       <App />
     </React.StrictMode>
-  // </BlockShopContext>
+  </BlockShopContext>
 )

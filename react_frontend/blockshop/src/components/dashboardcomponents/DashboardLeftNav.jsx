@@ -1,4 +1,9 @@
 import React, { useContext } from 'react';
+import { AiOutlineClose, AiOutlineEdit, AiOutlineHome, AiOutlineMenu } from 'react-icons/ai';
+import { GoChecklist } from 'react-icons/go';
+import {GiFarmTractor, GiClothes} from 'react-icons/gi'
+import {FcElectronics, FcSalesPerformance} from 'react-icons/fc'
+import { IoAnalyticsOutline, IoCartOutline } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import { BlockShopContextInstance } from '../../context/BlockShopContext';
 
@@ -6,10 +11,9 @@ const DashboardLeftNav = () => {
 
     const LinkList = ({icon, title, link,...children}) => {
         return (
-            <li className="items-center p-2 hover:cursor-pointer w-full hover:tracking-wide ease-in duration-500 "  {...children}>
-                <Link to={link}>
-                    <span className=''>{icon}</span>
-                     {title}
+            <li className="hover:cursor-pointer hover:text-[#330066] w-full hover:tracking-wide ease-in duration-500 p-2"  {...children}>
+                <Link to={link} className="flex flex-row items-center gap-2">
+                    <span className=''>{icon}</span> {title}
                 </Link>
             </li>
         )
@@ -28,30 +32,30 @@ const DashboardLeftNav = () => {
     }
 
 
-    const { accountAddress } = useContext( BlockShopContextInstance );
+    const { account } = useContext( BlockShopContextInstance );
 
   return (
 
     <>
     <p className="lg:hidden" onClick={ShowMenu} id="menu-icon">{<AiOutlineMenu/>}</p>
-    <div className="hidden z-20 lg:inline left-0 p-2 max-h-[100vh] bg-white" id='menu-item' >
+    <div className="hidden z-20 lg:inline left-0 p-2 max-h-[100vh] bg-white max-w-[300px]" id='menu-item' >
         <div className='flex flex-row gap-2 items-center justify-between'>
-            <h1 className='text-center p-4 text-text-color tracking-wide font-black text-lg'>Dashboard</h1>
+            <h1 className='text-center p-4 text-text-color tracking-wide font-black text-lg'>Menu</h1>
             <p className="lg:hidden" onClick={CloseMenu} id="close-icon">{<AiOutlineClose/>}</p>
         </div>
-        <ul className='overflow-y-scroll p-4 h-full shadow-lg' >
+        <ul className='overflow-y-scroll p-4 h-full shadow-lg w-full' >
             <LinkList icon={<AiOutlineHome/>} title="Home" link=""/>
             <LinkList icon={<GiFarmTractor/>} title="Agriculture" link="/agriculture" catname="Agriculture" />
             <LinkList icon={<FcElectronics/>} title="Electronics" link="/electronics" catname="Bsiness"/>
             <LinkList icon={<GiClothes/>} title="Wears" link="/wears" catname="Climate"/>
             <div className='h-[1px] w-full bg-[#ddd] my-2'></div>
             
-            <LinkList icon={<AiOutlineEdit/>} title="Add Product" link="/addproducts"/>
+            <LinkList icon={<AiOutlineEdit/>} title="Add Product" link="/addproduct"/>
             <LinkList icon={<IoAnalyticsOutline/>} title="Analytics" link="#analytics" />
             <LinkList icon={<FcSalesPerformance/>} title="Transactions" link="#transactions"/>
-            <LinkList icon={<GoChecklist/>} title="Hot deals" link="#hotdeals" />
-            <LinkList icon={<GoChecklist/>} title="Recent Products" link="#recentproducts"/>
-            <LinkList icon={<GoChecklist/>} title="Bulk Products" link="#bulkproducts"/>
+            <LinkList icon={<GoChecklist/>} title="Top deals" link="#hotdeals" />
+            <LinkList icon={<GoChecklist/>} title="New Products" link="#newproducts"/>
+            <LinkList icon={<GoChecklist/>} title="Bulk Sales" link="#bulksales"/>
             
             <div className='h-[1px] w-full bg-[#ddd] my-2'></div>
             
