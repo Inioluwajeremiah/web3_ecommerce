@@ -7,6 +7,7 @@ import LabelText from './LabelText';
 import SelectComponent from './SelectComponent';
 import { AgricultureCategories, ElectronicsCategories, MajorCategories, WearsCategories } from '../data/CategoriesData';
 import { BlockShopContextInstance } from '../context/BlockShopContext';
+import TitleText from './TitleText';
 
 const AddProduct = () => {
 
@@ -15,7 +16,11 @@ const AddProduct = () => {
   const [currentCategory, setCurrentCategory] = useState(''); 
   const [currentSubCategory, setCurrentSubCategory] = useState('');
   const [fileImage, setFileImage] = useState(null);
-  const [imageUri, setImageUri] = useState('');
+  const [imageLeftView, setImageLeftView] = useState('');
+  const [imageRightView, setImageRightView] = useState('');
+  const [imageTopView, setImageTopView] = useState('');
+  const [imageFrontView, setImageFrontView] = useState('');
+  const [imageRearView, setImageRearView] = useState('');
   const [productName, setProductName] = useState('');
   const [productDescription, setProductDescription] = useState('');
   const [productPriceTag, setProductPriceTag] = useState('');
@@ -28,14 +33,18 @@ const AddProduct = () => {
     setCurrentCategory(e.target.value)
     console.log(currentCategory);
   }
-  const UploadImage = async (event) => {
 
-    event.preventDefault()
+  // upload Image
+  const UploadImage = async (evt, setImageUri) =>  {
+    evt.prevtDefault()
 
-    const selectedImage = event.target.files[0];
+    const selectedImage = evt.target.files[0];
     setFileImage(selectedImage);
 
+    console.log(selectedImage);
+
     console.log("jwt token", process.env.REACT_APP_PINATA_API_JWT);
+    
 
     if (selectedImage)  {
         try {
@@ -68,6 +77,7 @@ const AddProduct = () => {
     e.preventDefault()
     if (!imageUri || !productName || !productQuantity
       || !productPriceTag || !productDescription || !discountPercent) {
+        alert("Input all fields")
     } else {
 
       try {
@@ -127,7 +137,7 @@ const AddProduct = () => {
 
   return (
     <section className='w-full  p-4'>
-      <h1 className='text-center'>Add New Product</h1>
+      <TitleText title="Add New Product"/>
       <form action='/newnft' encType='multipart/form-data' className='max-w-[700px] mx-auto shadow-md p-4 border-[1px]'>
       <FormHeader />
       <LabelText title="Product name" />
@@ -136,6 +146,17 @@ const AddProduct = () => {
         placeHolder="Product Name"
         onCHangeText={(e) =>setProductName(e.target.value.trim()) }
       />
+      <LabelText title="Select Category" />
+      
+      <SelectComponent data={ MajorCategories} onChange={changeCategory} />
+      
+      { (currentCategory == "") ? " " : <LabelText title={`Select ${currentCategory} Subcategory`}/> }
+      {
+              (currentCategory == "Agriculture") ?  <SelectComponent data={ AgricultureCategories } onChange={(evt) => setCurrentSubCategory(evt.target.value)} />
+          :   (currentCategory == "Electronics") ?  <SelectComponent data={ ElectronicsCategories } onChange={(evt) => setCurrentSubCategory(evt.target.value)} />
+          :   (currentCategory == "Wears") ?  <SelectComponent data={ WearsCategories } onChange={(evt) => setCurrentSubCategory(evt.target.value)} />
+          :   ""
+      }
       <LabelText title="Price tag" />
        <FormInput 
         Type='number'
@@ -162,26 +183,40 @@ const AddProduct = () => {
           placeholder="Product description">
         </textarea>
       </div>
-      <LabelText title="Select Image" />
+      <LabelText title="Frontview image" />
        <div>
-        <input type="file" accept='image/*' onChange={UploadImage}
+        <input type="file" accept='image/*' onChange={(evt) => UploadImage(evt, setImageFrontView)}
           className="border-solid rounded-sm border-[1px] border-[#ddd] mb-4 p-4 outline-none w-full"
         />
       </div>
-      <LabelText title="Select Category" />
+      <LabelText title="Sideview(left) image" />
+       <div>
+        <input type="file" accept='image/*' onChange={() => UploadImage(setImageLeftView)}
+          className="border-solid rounded-sm border-[1px] border-[#ddd] mb-4 p-4 outline-none w-full"
+        />
+      </div>
+      <LabelText title="Sideview(right) image" />
+       <div>
+        <input type="file" accept='image/*' onChange={() => UploadImage(setImageRightView)}
+          className="border-solid rounded-sm border-[1px] border-[#ddd] mb-4 p-4 outline-none w-full"
+        />
+      </div>
+      <LabelText title="Rearview image" />
+       <div>
+        <input type="file" accept='image/*' onChange={() => UploadImage(setImageRearView)}
+          className="border-solid rounded-sm border-[1px] border-[#ddd] mb-4 p-4 outline-none w-full"
+        />
+      </div>
+      <LabelText title="Top view" />
+       <div>
+        <input type="file" accept='image/*' onChange={() => UploadImage(setImageTopView)}
+          className="border-solid rounded-sm border-[1px] border-[#ddd] mb-4 p-4 outline-none w-full"
+        />
+      </div>
       
-            <SelectComponent data={ MajorCategories} onChange={changeCategory} />
-            
-            { (currentCategory == "") ? " " : <LabelText title={`Select ${currentCategory} Subcategory`}/> }
-            {
-                    (currentCategory == "Agriculture") ?  <SelectComponent data={ AgricultureCategories } onChange={(evt) => setCurrentSubCategory(evt.target.value)} />
-                :   (currentCategory == "Electronics") ?  <SelectComponent data={ ElectronicsCategories } onChange={(evt) => setCurrentSubCategory(evt.target.value)} />
-                :   (currentCategory == "Wears") ?  <SelectComponent data={ WearsCategories } onChange={(evt) => setCurrentSubCategory(evt.target.value)} />
-                :   ""
-            }
         
        <div className='flex flex-row justify-center items-center '>
-        <button onClick={UploadMetaData} className="bg-[#330066] text-white p-4 rounded-md hover:tracking-widest ease-in-out duration-500">
+        <button onClick={UploadMetaData} className="bg-[#3b82f6] text-white p-4 rounded-md hover:tracking-widest ease-in-out duration-500">
           Upload Product
         </button>
        </div>
@@ -194,3 +229,16 @@ const AddProduct = () => {
 }
 
 export default AddProduct
+
+
+// We have 20 pieces HP laptops Elitebook 5173 in store. 
+// Specification include;
+// 1. 500g ssd
+// 2. 12g RAM
+// 3. 4 hrs battery span
+// 4. Web Cam
+// 5. 2g Graphics Card
+// 6. 16 inches screen size
+// 7.  2,2GHz processor.
+// 8. Core i7
+// Shipment is also available on payment. 

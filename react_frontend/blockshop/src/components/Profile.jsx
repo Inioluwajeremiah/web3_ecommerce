@@ -7,6 +7,7 @@ import { BlockShopContextInstance } from '../context/BlockShopContext';
 import SelectComponent from './SelectComponent';
 import LabelText from './LabelText';
 import { MajorCategories } from '../data/CategoriesData';
+import TitleText from './TitleText';
 
 const Profile = () => {
 
@@ -176,92 +177,100 @@ const UploadStoreImage = async (event) => {
   }
 
   return (
-    <form action='/Profile' encType='multipart/form-data' className='max-w-[500px] mx-auto my-24 shadow-md p-4 border-[1px]'>
-      <FormHeader description="Upload new NFT"/>
-      <FormInput 
-        Type='text'
-        placeHolder="Full Name"
-        onCHangeText={(e) =>setFullName(e.target.value) }
-      />
-       <FormInput 
-        Type='text'
-        placeHolder="Store Name"
-        onCHangeText={(e) =>setStoreName(e.target.value) }
-      />
-       <LabelText title="Select Category" />
-      
-      <SelectComponent data={ MajorCategories} onChange={changeCategory} />
-      <div className='flex-row  '>
-        <textarea name="" id="" cols="30" rows="10"
-          className="border-solid rounded-sm border-[1px] border-[#ddd] mb-4 p-4 outline-none w-full"
-          onChange={(e) => setStoreDescription(e.target.value.trim())}
-          placeHolder="Store description">
-        </textarea>
-      </div>
-
-      <FormInput 
-        Type='text'
-        placeHolder="Facebook handle"
-        onCHangeText={(e) =>setFacebookLink(e.target.value.trim()) }
-      />
-       <FormInput 
-        Type='text'
-        placeHolder="Facebook handle"
-        onCHangeText={(e) =>setFacebookLink(e.target.value.trim()) }
-      />
-       <FormInput 
-        Type='text'
-        placeHolder="Instagram handle"
-        onCHangeText={(e) =>setInstagramLink(e.target.value.trim()) }
-      />
-      <FormInput 
-        Type='text'
-        placeHolder="Whatsapp address"
-        onCHangeText={(e) =>setWhatsAppLink(e.target.value.trim()) }
-      />
-      <FormInput 
-        Type='text'
-        placeHolder="Twitter handle"
-        onCHangeText={(e) =>setTwitterLink(e.target.value.trim()) }
-      />
-      <FormInput 
-        Type='Email'
-        placeHolder="Email"
-        onCHangeText={(e) =>setEmail(e.target.value.trim()) }
-      />
-      <FormInput 
-        Type='text'
-        placeHolder="Store Country"
-        onCHangeText={(e) =>setCountry(e.target.value.trim()) }
-      />
-      <FormInput 
-        Type='text'
-        placeHolder="Store State"
-        onCHangeText={(e) =>setState(e.target.value.trim()) }
-      />
-      <FormInput 
-        Type='text'
-        placeHolder="Store address"
-        onCHangeText={(e) =>setAddress(e.target.value.trim()) }
-      />
-       <div>
-        <input type="file" accept='image/*' onChange={UploadProfileImage}
-          className="border-solid rounded-sm border-[1px] border-[#ddd] mb-4 p-4 outline-none w-full"
+    <section className='w-full  p-4'>
+      <TitleText title ="Update Profile"/>
+      <form action='/Profile' encType='multipart/form-data' className='max-w-[700px] mx-auto my-2 shadow-md p-4 border-[1px]'>
+        <FormHeader/>
+        <LabelText title="Full name" />
+        <FormInput 
+          Type='text'
+          placeHolder="Full Name"
+          onCHangeText={(e) =>setFullName(e.target.value) }
         />
-       </div> 
-       <div>
-        <input type="file" accept='image/*' onChange={UploadStoreImage}
-          className="border-solid rounded-sm border-[1px] border-[#ddd] mb-4 p-4 outline-none w-full"
+        <LabelText title="Store name" />
+        <FormInput 
+          Type='text'
+          placeHolder="Store Name"
+          onCHangeText={(e) =>setStoreName(e.target.value) }
         />
-       </div> 
-       <div className='flex flex-row justify-center items-center '>
-        <button onClick={UploadProfileMetaData} className="bg-green-700 text-white p-4 rounded-md hover:tracking-widest ease-in-out duration-500">
-          Update Profile
-        </button>
-       </div>
-        
-    </form>
-    
+        <LabelText title="Select store category" />
+        <SelectComponent data={ MajorCategories} onChange={changeCategory} />
+        <LabelText title="Store description" />
+        <div className='flex-row  '>
+          <textarea name="" id="" cols="30" rows="10"
+            className="border-solid rounded-sm border-[1px] border-[#ddd] my-2 p-4 outline-none w-full"
+            onChange={(e) => setStoreDescription(e.target.value.trim())}
+            placeholder="Store description">
+          </textarea>
+        </div>
+        <LabelText title="Facebook handle" />
+        <FormInput 
+          Type='text'
+          placeHolder="Facebook handle"
+          onCHangeText={(e) =>setFacebookLink(e.target.value.trim()) }
+        />
+        <LabelText title="Instagram handle" />
+        <FormInput 
+          Type='text'
+          placeHolder="Instagram handle"
+          onCHangeText={(e) =>setInstagramLink(e.target.value.trim()) }
+        />
+        <LabelText title="Whatsapp address" />
+        <FormInput 
+          Type='text'
+          placeHolder="Whatsapp address"
+          onCHangeText={(e) =>setWhatsAppLink(e.target.value.trim()) }
+        />
+        <LabelText title="Twitter handle" />
+        <FormInput 
+          Type='text'
+          placeHolder="Twitter handle"
+          onCHangeText={(e) =>setTwitterLink(e.target.value.trim()) }
+        />
+       <LabelText title="Email" />
+        <FormInput 
+          Type='Email'
+          placeHolder="Email"
+          onCHangeText={(e) =>setEmail(e.target.value.trim()) }
+        />
+        <LabelText title="Store Country" />
+        <FormInput 
+          Type='text'
+          placeHolder="Country your store is located"
+          onCHangeText={(e) =>setCountry(e.target.value.trim()) }
+        />
+        <LabelText title="Store state" />
+        <FormInput 
+          Type='text'
+          placeHolder="State your store is located"
+          onCHangeText={(e) =>setState(e.target.value.trim()) }
+        />
+        <LabelText title="Store address" />
+        <FormInput 
+          Type='text'
+          placeHolder="Address your store is located"
+          onCHangeText={(e) =>setAddress(e.target.value.trim()) }
+        />
+        <LabelText title="Profile image" />
+        <div>
+          <input type="file" accept='image/*' onChange={UploadProfileImage}
+            className="border-solid rounded-sm border-[1px] border-[#ddd] mb-4 p-4 outline-none w-full"
+          />
+        </div> 
+        <LabelText title="Store image" />
+        <div>
+          <input type="file" accept='image/*' onChange={UploadStoreImage}
+            className="border-solid rounded-sm border-[1px] border-[#ddd] mb-4 p-4 outline-none w-full"
+          />
+        </div> 
+        <div className='flex flex-row justify-center items-center '>
+          <button onClick={UploadProfileMetaData} className="bg-[#3b82f6] text-white p-4 rounded-md hover:tracking-widest ease-in-out duration-500">
+            Update Profile
+          </button>
+        </div>
+          
+      </form>
+    </section>
   )
 }
 
