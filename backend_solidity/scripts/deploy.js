@@ -3,7 +3,7 @@ const main = async () => {
   // Blockshop contract
 const BlockShop = await ethers.getContractFactory("BlockShop");
 
-const blockShop = await BlockShop.deploy();
+const blockShop = await BlockShop.deploy(1);
  
  await blockShop.deployed();
  

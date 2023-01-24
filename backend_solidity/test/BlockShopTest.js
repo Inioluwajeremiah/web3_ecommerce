@@ -36,8 +36,8 @@ describe ("BlockShop", () => {
     it ("Test for creating a user profile", async () => {
       const {blockShop, accountone, accountfour} = await loadFixture(load_fixtures);
 
-      await expect (blockShop.connect(accountfour).createProfile("imageuri", "profile metadata")).
-      to.emit(blockShop, 'ProfileEvent').withArgs(accountfour.address, "imageuri", "profile metadata")
+      await expect (blockShop.connect(accountfour).createProfile( "profile metadata")).
+      to.emit(blockShop, 'ProfileEvent').withArgs(accountfour.address, "profile metadata")
 
     } )
   })
