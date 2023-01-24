@@ -22,7 +22,7 @@ export const ElectronicsCategories = [
     },
      {
         name: "Sound and Music",
-        icon: "",
+        icon: "/public/images/sound.png",
         value: "sound"
     },
 ]
