@@ -7,7 +7,7 @@ const ItemCard = ({id, imgSrc, productName, productDiscountPrice, productDiscoun
     <div className='w-[300px] h-[300px] max-w-[300px] items-center justify-center p-2 m-4 shadow-lg border border-[#ddd]'>
         <Link 
           to={`/preview/${productName + id}`}
-          state={{ itemData: catData.filter((item) => item.id == id)}}
+          state={{ itemData: catData.filter((item) => item.Id == id)}}
         >
         
             <div className='flex mx-auto h-28 w-full overflow-hidden items-center justify-center'>

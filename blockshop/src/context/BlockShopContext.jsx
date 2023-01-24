@@ -11,9 +11,11 @@ if(!window.ethereum) alert("Install a cryptocurrency wallet to continue")
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 const signer = provider.getSigner()
 console.log("signer => ", signer);
- // connect ABI using the Contract abstraction layer
+// connect ABI using the Contract abstraction layer
 // The Contract object
 const BlockShopContract = new ethers.Contract(BlockShopContractAddress, BlockShopContractABI, signer);
+
+console.log(BlockShopContract);
 
 
 const BlockShopContext = ({children}) => {
@@ -104,11 +106,11 @@ const BlockShopContext = ({children}) => {
           // all products
           productArray.push(productItem)
           // get all products under agriculture category
-          if (stagedproduct.ctegory == "agriculture") agricultureArray.push(productItem)
+          if (metadata.category == "agriculture") agricultureArray.push(productItem)
           // get all products under electronics category
-          if (stagedproduct.ctegory == "electronics") electronicsArray.push(productItem)
+          if (metadata.category == "electronics") electronicsArray.push(productItem)
           // get all products under wears category
-          if (stagedproduct.ctegory == "wears") wearsArray.push(productItem)
+          if (metadata.category == "wears") wearsArray.push(productItem)
         }
       }
 
@@ -117,6 +119,9 @@ const BlockShopContext = ({children}) => {
       setWearsArray(wearsArray);
       setAllProductsArray(productArray);
       setLoadingData(false)
+
+      console.log("agric array => ", agricultureArray);
+      console.log('electronicsarray => ', electronicsArray);
       
     } catch (error) {
       alert(error) 

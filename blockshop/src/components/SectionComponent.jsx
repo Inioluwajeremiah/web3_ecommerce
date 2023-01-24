@@ -10,14 +10,14 @@ const SectionComponent = ({linkid, dataToMap, title}) => {
     {
       dataToMap.map((item, index) =>  
         <ItemCard key ={index}
-          imgSrc={item.imageuri}
+          imgSrc={item.fImage}
           productName={item.productName}
           productDescription={item.productDescription}
           productPriceTag={item.productPriceTag}
           productDiscountPercent={item.productDiscountPercent}
           productDiscountPrice = {(item.productPriceTag * item.productDiscountPercent) / 100}
           productNoPieces = {item.productNoPieces}
-          id={item.id}
+          id={item.Id}
           catData = {dataToMap}
         />
       )

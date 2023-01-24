@@ -23,6 +23,11 @@ const Electronics = ({}) => {
   // bulk sales 
   const bulksales = ElectronicsArray.filter((product) => product.productQuantity >= 200)
 
+
+  console.log("television => ", television);
+  console.log("computer => ", computer);
+  console.log("electronics array => ", ElectronicsArray);
+
   return (
     <main className='w-[100%] items-center justify-center px-4 '>
       <LandingSection
