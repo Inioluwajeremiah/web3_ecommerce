@@ -18,7 +18,7 @@ const DashboardRightNav = () => {
                     <img src="" alt="" />
                 </div>
                 <div>
-                    <p>{account.slice(0,5)}...{account.slice(account.length-5, account.length)}</p>
+                    <p>{account.length > 0 ? account.slice(0,5) : ""}...{ account.length > 0 ? account.slice(account.length-5, account.length) : ""}</p>
                     <p>Full name</p>
                 </div>
                 

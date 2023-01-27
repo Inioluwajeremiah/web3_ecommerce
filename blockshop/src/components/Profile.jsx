@@ -30,7 +30,7 @@ const Profile = () => {
   const [email, setEmail] = useState('');
   const [country, setCountry] = useState('');
   const [state, setState] = useState('');
-  const[storeAddress, setAddress] = useState('');
+  const [storeAddress, setAddress] = useState('');
   const [loading, setLoading] = useState(false)
 
 
@@ -82,6 +82,7 @@ const UploadStoreImage = async (event) => {
   // console.log("jwt token", process.env.REACT_APP_PINATA_API_JWT);
 
   if (selectedImage)  {
+    console.log(selectedImage);
     setLoading(true)
       try {
           const formData = new FormData();
@@ -93,7 +94,7 @@ const UploadStoreImage = async (event) => {
               data: formData,
               headers: {
                   "Content-Type": "multipart/form-data",
-                  "Authorization": 'Bearer ' + process.env.REACT_APP_PINATA_API_JWT
+                  "Authorization": 'Bearer ' + PINATA_API_JWT
               },
           });
           // get hCID of the uploaded image
@@ -102,7 +103,7 @@ const UploadStoreImage = async (event) => {
           console.log("hash => ", hash);
           setStoreImageUri(hash)
           setLoading(false)
-          console.log("image hash => ", imageUri);    
+          // console.log("image hash => ", imageUri);    
       } catch (error) {
           console.log("Error sending File to IPFS: ")
           console.log(error.message, error.request, error.response)

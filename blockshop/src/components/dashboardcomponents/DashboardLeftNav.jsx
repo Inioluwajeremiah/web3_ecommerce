@@ -37,7 +37,7 @@ const DashboardLeftNav = () => {
   return (
 
     <>
-        <p className="lg:hidden absolute left-0 ml-2 -z-10" onClick={ShowMenu}  id="menu-icon">{<AiOutlineMenu/>}</p>
+        <p className="lg:hidden absolute left-0 ml-2 fixed top-[80px]" onClick={ShowMenu}  id="menu-icon">{<AiOutlineMenu/>}</p>
         <div className="hidden z-20 lg:inline left-0 p-2 h-[100vh] max-h-[100%] bg-white max-w-[300px]" id='menu-item' >
             <div className='flex flex-row gap-2 items-center justify-between'>
                 <h1 className='text-center p-4 text-[#475569] tracking-wide font-black text-lg'>Menu</h1>

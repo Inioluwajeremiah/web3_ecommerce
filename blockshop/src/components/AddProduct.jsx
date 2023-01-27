@@ -8,6 +8,8 @@ import { AgricultureCategories, ElectronicsCategories, MajorCategories, WearsCat
 import { BlockShopContextInstance } from '../context/BlockShopContext';
 import TitleText from './TitleText';
 import Spinner from './Spinner';
+import axios from 'axios';
+import { PINATA_API_KEY, PINATA_API_SECRET_KEY , PINATA_API_JWT} from '../../ipfsconfig';
 
 const AddProduct = () => {
 
@@ -70,9 +72,10 @@ const AddProduct = () => {
             console.log( 'f => ', imageFrontView, 'l => ',imageLeftView, 'r => ', imageRightView, 
             't => ',imageTopView, 'rear => ', imageRearView);    
         } catch (error) {
-            console.log("Error sending File to IPFS: ")
+            // console.log("Error sending File to IPFS: ")
             console.log(error.message, error.request, error.response)
-        }
+            setLoading(false)
+          }
     }
 }
 

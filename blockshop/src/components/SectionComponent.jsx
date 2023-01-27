@@ -15,7 +15,7 @@ const SectionComponent = ({linkid, dataToMap, title}) => {
           productDescription={item.productDescription}
           productPriceTag={item.productPriceTag}
           productDiscountPercent={item.productDiscountPercent}
-          productDiscountPrice = {(item.productPriceTag * item.productDiscountPercent) / 100}
+          productDiscountPrice = {item.productDiscountPrice}
           productNoPieces = {item.productNoPieces}
           id={item.Id}
           catData = {dataToMap}

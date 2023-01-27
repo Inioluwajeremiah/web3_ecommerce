@@ -80,7 +80,11 @@ const BlockShopContext = ({children}) => {
           const response = await fetch(stagedproduct.ownerMetadata);
           const metadata = await response.json();
           const totalPrice = await BlockShopContract.GetTotalPrice(stagedproduct.id)
-          
+
+          const priceInWei =  ethers.utils.parseEther(metadata.productPriceTag.toString())
+          const discount_price = priceInWei + (priceInWei * metadata.discountPercent/100)
+          const priceInEther = ethers.utils.formatEther(discount_price)
+
           let productItem = { 
             Id: stagedproduct.id, 
             seller: stagedproduct.productOwnerAccount,
@@ -89,8 +93,8 @@ const BlockShopContext = ({children}) => {
             productName:metadata.productName, 
             productDescription: metadata.productDescription,
             productPriceTag: metadata.productPriceTag,
-            productDiscountPercent: metadata.productDiscountPercent,
-            productDiscountPrice: (metadata.productPriceTag * metadata.productDiscountPercent) / 100,
+            productDiscountPercent: metadata.discountPercent,
+            productDiscountPrice: priceInEther,
             productTotalPrice: totalPrice,
             productNoPieces: metadata.productQuantity,
             fImage: metadata.imageFrontView,
