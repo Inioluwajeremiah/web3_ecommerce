@@ -73,10 +73,8 @@ const BlockShopContext = ({children}) => {
   const getAllProducts = async () => {
 
     setLoadingData(true)
-    console.log("Block shop contracr at products", BlockShopContract);
-    const getcounter = await BlockShopContract.productCounter();
     try {
-      // const getcounter = await BlockShopContract.productCounter();
+      const getcounter = await BlockShopContract.productCounter();
       const counter = getcounter.toString();
       console.log("counter => ", counter);
 
@@ -88,7 +86,7 @@ const BlockShopContext = ({children}) => {
       for ( let i=1; i<= counter; i++) {
         console.log("for loop", i);
         const stagedproduct = await BlockShopContract.Stagedproducts(i);
-        // console.log("item index from Stagedproducts mapping => ", stagedproduct );
+        console.log("item index from Stagedproducts mapping => ", stagedproduct );
   
         if(stagedproduct.productStatus == false) {
           const response = await fetch(stagedproduct.ownerMetadata);
@@ -96,11 +94,13 @@ const BlockShopContext = ({children}) => {
           const totalPrice = await BlockShopContract.GetTotalPrice(stagedproduct.id)
 
           // format product price
-          const priceInWei =  ethers.utils.parseEther(metadata.productPriceTag.toString())
-          const discount_percent = priceInWei * metadata.productDiscountPercent/100
+          const priceInWei =  ethers.utils.parseEther(metadata.productPriceTag)
+          const discount_percent = priceInWei * metadata.discountPercent/100
           const discount_price = Number(priceInWei) + Number(discount_percent)
           const priceInEther = ethers.utils.formatEther(discount_price)
-
+          
+          console.log("context to wei => ", priceInWei.toString());
+          console.log("context normal price =>", metadata.productPriceTag);
           let productData = { 
             Id: stagedproduct.id, 
             seller: stagedproduct.productOwnerAccount,
@@ -140,8 +140,8 @@ const BlockShopContext = ({children}) => {
       setAllProductsArray(productArray);
       setLoadingData(false)
 
-      // console.log("agric array => ", agricultureArray);
-      // console.log('electronicsarray => ', electronicsArray);
+      console.log("agric array => ", agricultureArray);
+      console.log('electronicsarray => ', electronicsArray);
       
     } catch (error) {
       alert(error) 
@@ -151,7 +151,6 @@ const BlockShopContext = ({children}) => {
 
   useEffect( () => {
     ConnectAccount();
-    // getProfile();
     getAllProducts();
    
   }, [])

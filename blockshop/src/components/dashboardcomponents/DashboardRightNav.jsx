@@ -34,7 +34,7 @@ const DashboardRightNav = () => {
 
   useEffect(() => {
     getProfile()
-  })
+  }, [account])
 
   return (
     <div className='lg:w-[35vw] w-[100%] mx-[auto]'>

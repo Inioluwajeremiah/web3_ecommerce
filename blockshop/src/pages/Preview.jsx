@@ -20,16 +20,18 @@ const Preview = () => {
 
   const AddToCart = () => {}
 
-  const priceInWei =  ethers.utils.parseEther(itemData[0].productPriceTag.toString())
-  const discount_percent = priceInWei * itemData[0].productDiscountPercent/100
-  const discount_price = Number(priceInWei) + Number(discount_percent)
-  const priceInEther = ethers.utils.formatEther(discount_price)
 
-  console.log("price in wei => ", priceInWei.toString());
-  console.log("discount percent => ", discount_percent);
-  console.log("discount price => ", discount_price);
-  console.log("price in ether => ", priceInEther);
-  
+  console.log("price => ", itemData[0].productPriceTag);
+  console.log("total => ", ethers.utils.formatEther(itemData[0].productTotalPrice));
+
+  const formatTotalPrice = ethers.utils.formatEther(itemData[0].productTotalPrice);
+
+  const priceInWei =  ethers.utils.parseEther(itemData[0].productPriceTag)
+  const totalInWei = ethers.utils.parseEther(formatTotalPrice);
+  const total_price = Number(qtyNeeded) * Number(totalInWei)
+  // alert(total_price)
+  console.log("total price in wei => ", totalInWei.toString());
+    
   const BuyProduct = async() => {
     if (!qtyNeeded) {
       alert("input quantty needed")
@@ -77,7 +79,7 @@ const Preview = () => {
         
         const uri = "https://gateway.pinata.cloud/ipfs/" + result.data.IpfsHash;
         // buy product function
-        await (await BlockShopContract.BuyProduct(id, uri)).wait();    
+        await BlockShopContract.BuyProduct(id, uri, {value: total_price});    
         alert("Item purchase successfull")    
       } catch (error) {
         alert(error)
@@ -109,8 +111,8 @@ const Preview = () => {
           
           <p className='py-2'> Product Description: {itemData[0].productDescription}</p>
           <p className='py-2'>Quantity in stock: {itemData[0].productNoPieces}</p>
-          <p className='py-2'>Price Tag: <s>{priceInEther}</s> ETH</p>
-          <p className='py-2'>Discount price tag: <span className='text-green-500'>{itemData[0].productPriceTag}</span> ETH</p>
+          <p className='py-2'>Price Tag: <s>{itemData[0].productPriceTag}</s> ETH</p>
+          <p className='py-2'>Discount price tag: <span className='text-green-500'>{itemData[0].productDiscountPrice}</span> ETH</p>
           <p className='py-2'>Discount percentage: <span className='text-orange-500'>{itemData[0].productDiscountPercent}% </span> off</p>
 
         <LabelText title ="Quantity needed"/>
