@@ -90,7 +90,7 @@ const TableRow = ({no, name, category, subcategory, price, quantity, status, buy
                     <TableHeaderCell headerText="Price Tag" />
                     <TableHeaderCell headerText="Quantity" />
                     <TableHeaderCell headerText="Status" />
-                    <TableHeaderCell headerText="Buyer" />
+                    {/* <TableHeaderCell headerText="Buyer" /> */}
                     {/* <TableHeaderCell headerText="Likes" /> */}
                 </tr>
             </thead>
@@ -108,6 +108,7 @@ const TableRow = ({no, name, category, subcategory, price, quantity, status, buy
                         quantity = {dataItem.productNoPieces}
                         status = {dataItem.soldStatus == true ? "Sold" : "Unsold" }
                         // likes={dataItem.likes}
+                        // buyer = {}
                     />
                     ) : 
                     <TableRow 
