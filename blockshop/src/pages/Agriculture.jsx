@@ -55,7 +55,7 @@ const Agriculture = () => {
      
      
       {/* hot dea;s */}
-      <TopDealsSectionComponent dataToMap={television}/>
+      <TopDealsSectionComponent dataToMap={topdeals}/>
       {/* <TitleText title="Hot Deals"/>
       <div className='flex overflow-x-scroll gap-4 justify-between p-4 scrollbar-hide'> 
           {television.map((item, index) => 

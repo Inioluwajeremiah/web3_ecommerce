@@ -37,7 +37,7 @@ const Navbar = () => {
 
   return (
     <>
-        <nav className='flex fixed top-0 flex-row justify-between items-center w-full bg-white text-[#1e293b] px-8 h-[80px] shadow-md z-100'>
+        <nav className='flex fixed top-0 flex-row justify-between items-center w-full bg-white text-[#1e293b] px-8 h-[80px] shadow-md z-50'>
             <div className='logo flex items-center gap-2'>
                 <div className='h-16 w-16'>
                     <img src={logo} alt="" />

@@ -14,6 +14,7 @@ const BulkSectionComponent = ({ dataToMap}) => {
               quantity = {item.productNoPieces}
               productPriceTag = {item.productPriceTag}
               catData = {dataToMap}
+              id={item.Id}
             />
           )
         }

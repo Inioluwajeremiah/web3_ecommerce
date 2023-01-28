@@ -68,7 +68,6 @@ const BlockShopContext = ({children}) => {
   }
 
 
-
   // get all products
 
   const getAllProducts = async () => {
@@ -96,8 +95,10 @@ const BlockShopContext = ({children}) => {
           const metadata = await response.json();
           const totalPrice = await BlockShopContract.GetTotalPrice(stagedproduct.id)
 
+          // format product price
           const priceInWei =  ethers.utils.parseEther(metadata.productPriceTag.toString())
-          const discount_price = priceInWei + (priceInWei * metadata.discountPercent/100)
+          const discount_percent = priceInWei * metadata.productDiscountPercent/100
+          const discount_price = Number(priceInWei) + Number(discount_percent)
           const priceInEther = ethers.utils.formatEther(discount_price)
 
           let productData = { 
@@ -107,9 +108,9 @@ const BlockShopContext = ({children}) => {
             deliveredStatus: stagedproduct.delivered,
             productName:metadata.productName, 
             productDescription: metadata.productDescription,
-            productPriceTag: metadata.productPriceTag,
+            productPriceTag: priceInEther,
             productDiscountPercent: metadata.discountPercent,
-            productDiscountPrice: priceInEther,
+            productDiscountPrice: metadata.productPriceTag,
             productTotalPrice: totalPrice,
             productNoPieces: metadata.productQuantity,
             fImage: metadata.imageFrontView,

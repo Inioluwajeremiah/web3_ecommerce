@@ -20,8 +20,4 @@ export const ListData = [
         title: "Wears",
         link: "/wears"
     },
-    {
-        title: "Cart",
-        link: "/cart",
-    },
 ]

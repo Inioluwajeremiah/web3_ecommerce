@@ -37,8 +37,8 @@ const Wears = () => {
         { WearsCategories.map((item, index) =>
             <CategoriesCard key={index}
               imgsrc={item.icon}
-              title ={item.value}
-              linkid={item.id}
+              title ={item.name}
+              linkid={item.value}
             />
           ) 
         } 

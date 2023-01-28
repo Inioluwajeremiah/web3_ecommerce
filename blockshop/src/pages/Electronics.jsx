@@ -1,9 +1,11 @@
 import React from 'react'
 import { useContext } from 'react'
+import BulkSectionComponent from '../components/BulkSectionComponent'
 import CategoriesCard from '../components/CategoriesCard'
 import ItemCard from '../components/ItemCard'
 import LandingSection from '../components/LandingSection'
 import SectionComponent from '../components/SectionComponent'
+import TopDealsSectionComponent from '../components/TopDealsSectionComponent'
 import { BlockShopContextInstance } from '../context/BlockShopContext'
 import { ElectronicsCategories, MajorCategories } from '../data/CategoriesData'
 import { television, phones, games, computer, sound } from '../data/DummyData'
@@ -40,8 +42,8 @@ const Electronics = ({}) => {
         { ElectronicsCategories.map((item, index) =>
             <CategoriesCard key={index}
               imgsrc={item.icon}
-              title ={item.value}
-              linkid={item.id}
+              title ={item.name}
+              linkid={item.value}
             />
           ) 
         }
@@ -66,8 +68,10 @@ const Electronics = ({}) => {
           </section> */}
       <SectionComponent dataToMap={television} title="Televison" linkid="television" />
       <SectionComponent dataToMap={computer} title="Computer Software and Haedware" linkid="computer"/>
+      <TopDealsSectionComponent dataToMap={topdeals}/>
       <SectionComponent dataToMap={games}  title="Games" linkid="games"/>
       <SectionComponent dataToMap={phones} title="Phones and Accessories" linkid="phones"/>
+      <BulkSectionComponent dataToMap={bulksales} />
       <SectionComponent dataToMap={sound} title="Sound and Music" linkid="sound"/>
     {/* 
           <section id='#phones'>

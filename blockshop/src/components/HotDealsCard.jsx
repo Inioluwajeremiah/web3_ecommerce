@@ -10,7 +10,7 @@ const HotDealsCard = ({id, imgSrc, productName, productPriceTag, productDiscount
     <div className='w-[300px] h-[300px] min-w-[300px] items-center justify-center p-2 m-4 shadow-lg border border-[#ddd]'>
     <Link 
       to={`/preview/${productName + id}`}
-      state={{ itemData: catData.filter((item) => item.id == id)}}
+      state={{ itemData: catData.filter((item) => item.Id == id), id:id.toString()}}
     >
         <div className='flex mx-auto aspect-ratio-square w-full overflow-hidden items-center justify-center'>
             <img src={imgSrc} alt={productName}/>
@@ -25,12 +25,12 @@ const HotDealsCard = ({id, imgSrc, productName, productPriceTag, productDiscount
         </div>
         
     </Link>
-    <Link  to={`/cart/${productName + id}`}  
+    <Link  to={`/preview/${productName + id}`}  
         state={{
-          itemData: catData.filter((item) => item.id == id)
+          itemData: catData.filter((item) => item.Id == id)
         }}
         className='bg-[#330066] text-white p-2 w-full mx-auto items-center justify-center rounded-sm flex flex-row gap-2'>
-        Add to cart <AiOutlineShoppingCart/>
+        Buy now <AiOutlineShoppingCart/>
     </Link>
 </div>
   )
