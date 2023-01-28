@@ -46,7 +46,7 @@ const Navbar = () => {
             <div className='flex flex-row justify-between items-center'>
                 <ul id='navmenu' className='lg:flex flex-row justify-between items-center hover:cursor-pointer  hidden'>
 
-                   {ListData.map((item, index) => <ListComponent key={index} title={item.title} link={item.link} onclick={toggleMenu} />)}
+                   {ListData.map((item, index) => <ListComponent key={index} title={item.title} link={item.link} />)}
                    {account.length> 0 ? <p className='text-blue-700'>{account.slice(0,5)}...{account.slice(account.length-5, account.length)}</p> :
                     <button onClick={ConnectAccount} className="bg-[#330066] text-white p-4 rounded-sm">Connect Wallet</button>
                    }

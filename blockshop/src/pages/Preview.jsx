@@ -21,14 +21,15 @@ const Preview = () => {
   const AddToCart = () => {}
 
   const priceInWei =  ethers.utils.parseEther(itemData[0].productPriceTag.toString())
-  const discount_price = priceInWei + (priceInWei * itemData[0].productDiscountPercent/100)
   const discount_percent = priceInWei * itemData[0].productDiscountPercent/100
+  const discount_price = Number(priceInWei) + Number(discount_percent)
   const priceInEther = ethers.utils.formatEther(discount_price)
 
   console.log("price in wei => ", priceInWei.toString());
   console.log("discount percent => ", discount_percent);
   console.log("discount price => ", discount_price);
   console.log("price in ether => ", priceInEther);
+  
   const BuyProduct = async() => {
     if (!qtyNeeded) {
       alert("input quantty needed")
@@ -108,7 +109,7 @@ const Preview = () => {
           
           <p className='py-2'> Product Description: {itemData[0].productDescription}</p>
           <p className='py-2'>Quantity in stock: {itemData[0].productNoPieces}</p>
-          <p className='py-2'>Price Tag: <s>{itemData[0].productDiscountPrice}</s> ETH</p>
+          <p className='py-2'>Price Tag: <s>{priceInEther}</s> ETH</p>
           <p className='py-2'>Discount price tag: <span className='text-green-500'>{itemData[0].productPriceTag}</span> ETH</p>
           <p className='py-2'>Discount percentage: <span className='text-orange-500'>{itemData[0].productDiscountPercent}% </span> off</p>
 

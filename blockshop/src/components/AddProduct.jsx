@@ -171,7 +171,7 @@ const AddProduct = () => {
         <LabelText title="Price tag" />
         <FormInput 
           Type='number'
-          placeHolder="Product price tag (ETH)"
+          placeHolder="Product price tag after removing discount (ETH)"
           onCHangeText={(e) =>setProductPriceTag(e.target.value.trim()) }
         />
         <LabelText title="Quantity available" />

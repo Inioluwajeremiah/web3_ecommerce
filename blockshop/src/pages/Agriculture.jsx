@@ -40,8 +40,8 @@ const Agriculture = () => {
           { AgricultureCategories.map((item, index) =>
               <CategoriesCard key={index}
                 imgsrc={item.icon}
-                title ={item.value}
-                linkid={item.id}
+                title ={item.name}
+                linkid={item.value}
               />
             ) 
           }
@@ -49,9 +49,9 @@ const Agriculture = () => {
         </section>
       
 
-      <SectionComponent id="cashcrop" dataToMap={television} title="Televison" />      
+      <SectionComponent id="produce" dataToMap={produce} title="Agriculture Produce" />      
       
-      <SectionComponent linkid="farmmachines" dataToMap={computer} title="Computer Software and Haedware"/>
+      <SectionComponent linkid="farmmachines" dataToMap={farmmachines} title="Farm Machines"/>
      
      
       {/* hot dea;s */}
@@ -71,8 +71,8 @@ const Agriculture = () => {
         />
         )}
       </div> */}
-      <SectionComponent linkid="improvedseeds" dataToMap={games}  title="Games"/>
-      <SectionComponent linkid='fertilizers' dataToMap={phones} title="Phones and Accessories"/>
+      <SectionComponent linkid="improvedseeds" dataToMap={seeds}  title="Improved Seeds"/>
+      <SectionComponent linkid='fertilizers' dataToMap={fertilizers} title="Fertilizers"/>
       
       {/* bulk sales */}
       {/* <TitleText title="Bulk Sales"/>
@@ -89,9 +89,9 @@ const Agriculture = () => {
         }
       </div> */}
 
-      <BulkSectionComponent dataToMap={television} />
+      <BulkSectionComponent dataToMap={bulksales} />
 
-      <SectionComponent linkid="sound" dataToMap={sound} title="Sound and Music"/>
+      <SectionComponent linkid="sound" dataToMap={herbicides} title="Herbicides"/>
       
    
     </main>

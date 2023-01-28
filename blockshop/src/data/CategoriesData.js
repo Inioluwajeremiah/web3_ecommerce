@@ -62,6 +62,7 @@ export const AgricultureCategories = [
         name: "Farm produce",
         icon: "/public/images/barn.png",
         value: "produce"
+        // linkid: "produce"
     },
     {
         name: "Farm Machines",
