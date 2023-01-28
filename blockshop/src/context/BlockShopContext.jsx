@@ -12,23 +12,23 @@ const provider = new ethers.providers.Web3Provider(window.ethereum);
 const signer = provider.getSigner()
 console.log("signer => ", signer);
 // connect ABI using the Contract abstraction layer
-// The Contract object
 const BlockShopContract = new ethers.Contract(BlockShopContractAddress, BlockShopContractABI, signer);
 
-console.log(BlockShopContract);
+// console.log(BlockShopContract);
 
 
 const BlockShopContext = ({children}) => {
 
   const [account, setAccount] = useState({});
   // const [BlockShopContract, setBlockShopContract] = useState({});
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [loadingData, setLoadingData] = useState(false);
   const [WearsArray, setWearsArray] = useState([])
   const [ElectronicsArray, setElectronicsArray] = useState([]);
   const [AgricultureArray, setAgricultureArray] = useState([]);
   const [AllproductsArray,  setAllProductsArray] = useState([]);
-  const [profileData, setProfileData] = useState({});
+  
+  // const [BlockShopContract, setBlockShopContract] = useState({})
   
   
   
@@ -44,55 +44,29 @@ const BlockShopContext = ({children}) => {
     // For this, you need the account signer...
 
     // check if meamask is installed on windows and if not alert user to install one 
-    
 
-     const getAccounts = await provider.send("eth_requestAccounts", [])
-     setAccount(getAccounts[0])
-     console.log("list accounts => ", getAccounts);
-     console.log("connected account => ", account);
+    setLoading(true)
+    
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const getAccounts = await provider.send("eth_requestAccounts", [])
+    setAccount(getAccounts[0])
+
+    console.log("list accounts => ", getAccounts);
+    console.log("connected account => ", account);    
+    
+    // const signer = provider.getSigner()
+    // console.log("signer => ", signer);
 
     // connecting account method II
     // const getAccountsII = await window.ethereum.request({method: 'eth_requestAccounts'})
     // setAccount (getAccountsII[0])
     // console.log("connected account => ", account);
+
+    // const blockShopContract = new ethers.Contract(BlockShopContractAddress, BlockShopContractABI, signer);
+    // setBlockShopContract(blockShopContract)
+    // setLoading(false)
   }
 
-
-  // get all profile
-  const getAllProfile = async () => {
-    try {
-     
-      const profile = await BlockShopContract.profiles(account);
-      console.log("profile index from profile mapping => ", profile );
-      
-      const response = await fetch(profile.profileMetaData);
-      const metadata = await response.json();
-
-      let profileData = { 
-        pimage: profile.profileImageUri,
-        simage: profile.storeImageUri,
-        storeName: profile.storeName,
-        fullName:metadata.fullName, 
-        storeDescription: metadata.storeDescription,
-        facebookLink: metadata.facebookLink,
-        instagramLink: metadata.instagramLink,
-        whatsAppLink: metadata.whatsAppLink,
-        twitterLink: metadata.twitterLink,
-        email: metadata.email,
-        country: metadata.country,
-        state: metadata.state,
-        storeAddress: metadata.storeAddress,
-        category: metadata.category,
-        subcategory: metadata.subcategory,
-        date: metadata.date,
-      }
-      setProfileData(profileData);
-
-      
-    } catch (error) {
-      alert(error)
-    }
-  }
 
 
   // get all products
@@ -100,8 +74,10 @@ const BlockShopContext = ({children}) => {
   const getAllProducts = async () => {
 
     setLoadingData(true)
+    console.log("Block shop contracr at products", BlockShopContract);
+    const getcounter = await BlockShopContract.productCounter();
     try {
-      const getcounter = await BlockShopContract.productCounter();
+      // const getcounter = await BlockShopContract.productCounter();
       const counter = getcounter.toString();
       console.log("counter => ", counter);
 
@@ -113,7 +89,7 @@ const BlockShopContext = ({children}) => {
       for ( let i=1; i<= counter; i++) {
         console.log("for loop", i);
         const stagedproduct = await BlockShopContract.Stagedproducts(i);
-        console.log("item index from Stagedproducts mapping => ", stagedproduct );
+        // console.log("item index from Stagedproducts mapping => ", stagedproduct );
   
         if(stagedproduct.productStatus == false) {
           const response = await fetch(stagedproduct.ownerMetadata);
@@ -124,7 +100,7 @@ const BlockShopContext = ({children}) => {
           const discount_price = priceInWei + (priceInWei * metadata.discountPercent/100)
           const priceInEther = ethers.utils.formatEther(discount_price)
 
-          let profileData = { 
+          let productData = { 
             Id: stagedproduct.id, 
             seller: stagedproduct.productOwnerAccount,
             receivedStatus: stagedproduct.received,
@@ -147,13 +123,13 @@ const BlockShopContext = ({children}) => {
           }
 
           // all products
-          productArray.push(profileData)
+          productArray.push(productData)
           // get all products under agriculture category
-          if (metadata.category == "agriculture") agricultureArray.push(profileData)
+          if (metadata.category == "agriculture") agricultureArray.push(productData)
           // get all products under electronics category
-          if (metadata.category == "electronics") electronicsArray.push(profileData)
+          if (metadata.category == "electronics") electronicsArray.push(productData)
           // get all products under wears category
-          if (metadata.category == "wears") wearsArray.push(profileData)
+          if (metadata.category == "wears") wearsArray.push(productData)
         }
       }
 
@@ -163,8 +139,8 @@ const BlockShopContext = ({children}) => {
       setAllProductsArray(productArray);
       setLoadingData(false)
 
-      console.log("agric array => ", agricultureArray);
-      console.log('electronicsarray => ', electronicsArray);
+      // console.log("agric array => ", agricultureArray);
+      // console.log('electronicsarray => ', electronicsArray);
       
     } catch (error) {
       alert(error) 
@@ -172,16 +148,20 @@ const BlockShopContext = ({children}) => {
     }
   }
 
-  useEffect(() => {
+  useEffect( () => {
     ConnectAccount();
+    // getProfile();
     getAllProducts();
+   
   }, [])
 
   return (
-    <BlockShopContextInstance.Provider  value = {{account, BlockShopContract, ConnectAccount, AgricultureArray, ElectronicsArray, WearsArray, AllproductsArray }}>
-
-        {children}
-
+    <BlockShopContextInstance.Provider  
+      value = {{ 
+        account, BlockShopContract, ConnectAccount, AgricultureArray, 
+        ElectronicsArray, WearsArray, AllproductsArray, loading 
+      }}>
+      {children}
     </BlockShopContextInstance.Provider>
   )
 }

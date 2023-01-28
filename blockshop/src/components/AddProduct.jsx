@@ -234,7 +234,6 @@ const AddProduct = () => {
           
       </form>
       </section>
- 
     
   )
 }
