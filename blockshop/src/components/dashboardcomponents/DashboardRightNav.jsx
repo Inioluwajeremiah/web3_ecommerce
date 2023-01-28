@@ -5,11 +5,13 @@ import { GiMailbox } from 'react-icons/gi'
 import { MdEmail } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 import { BlockShopContextInstance } from '../../context/BlockShopContext'
+import ItemCard from '../ItemCard'
 import TitleText from '../TitleText'
+import TopDealsCard from './TopDealsCard'
 
 const DashboardRightNav = () => {
 
-    const {account, BlockShopContract} = useContext(BlockShopContextInstance)
+    const {account, BlockShopContract, AllproductsArray} = useContext(BlockShopContextInstance)
     const [profileData, setProfileData] = useState({});
 
      // get all profile
@@ -39,7 +41,7 @@ const DashboardRightNav = () => {
   return (
     <div className='lg:w-[35vw] w-[100%] mx-[auto]'>
         <section id="profile" className='px-2 pt-2 pb-4 shadow-md'>
-            <div className='flex flex-row gap-2 items-center justify-end'>
+            <div className='flex flex-row gap-2 items-center justify-start'>
                 <div className='w-16 h-16 rounded-full bg-black'>
                     <img src={profileData.profileImageUri} alt="" className='w-16 h-16 rounded-full'/>
                 </div>
@@ -50,7 +52,7 @@ const DashboardRightNav = () => {
                 
             </div>
             <div>
-                <p className='py-2'>{profileData.storeName}</p>
+                <p className='py-2 font-bold'>{profileData.storeName}</p>
                 <div className=' bg-black aspect-video'>
                     <img src={profileData.storeImageUri} alt="store display profile" />
                 </div>
@@ -71,17 +73,40 @@ const DashboardRightNav = () => {
             </div>
         </section>
 
+        
         <section id='hotdeals' className='mt-8 px-2 pt-2 pb-4 shadow-md'>
-            <TitleText title = "Top deals"/>
+            <TitleText title = "Top Deals"/>
+            {AllproductsArray.filter((item) => item.productDiscountPercent >= 11).slice(0,9).map((item, index) => 
+                <TopDealsCard key={index} 
+                    id={item.Id}
+                    imgSrc={item.fImage}
+                    productName={item.productName}
+                    date = {item.date}
+                    subcategory = {item.subcategory}
+                    profuctQuantity ={item.productNoPieces}
+                    productDiscountPercent={item.productDiscountPercent}
+                    catData={AllproductsArray}
+                />
+            )}
         </section>
 
         <section id='bulksales' className='mt-8 px-2 pt-2 pb-4 shadow-md'>
-            <TitleText title = "Bulk sales"/>
+            <TitleText title = "Bulk Sales"/>
+            {AllproductsArray.filter((item) => item.productNoPieces >= 11).slice(0,9).map((item, index) => 
+                <TopDealsCard key={index}
+                    index={index} 
+                    id={item.Id}
+                    imgSrc={item.fImage}
+                    productName={item.productName}
+                    date = {item.date}
+                    subcategory = {item.subcategory}
+                    profuctQuantity ={item.productNoPieces}
+                    productDiscountPercent={item.productDiscountPercent}
+                    catData={AllproductsArray}
+                />
+            )}
         </section>
 
-        <section id='newproducts' className='mt-8 px-2 pt-2 pb-4 shadow-md'>
-            <TitleText title = "Bulk sales"/>
-        </section>
     </div>
 
   )
