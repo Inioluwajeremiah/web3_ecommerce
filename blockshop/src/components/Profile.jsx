@@ -175,7 +175,7 @@ const UploadStoreImage = async (event) => {
         console.log("result data => ", result.data);
         const uri = "https://gateway.pinata.cloud/ipfs/" + result.data.IpfsHash;
       console.log("uri => ", uri);
-      await blockShop.createProfile(uri);
+      await BlockShopContract.createProfile(uri);
       } catch (error) {
         alert(error)
       }

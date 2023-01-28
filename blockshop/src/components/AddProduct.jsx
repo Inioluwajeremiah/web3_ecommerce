@@ -45,7 +45,7 @@ const AddProduct = () => {
 
     console.log(selectedImage);
 
-    // console.log("jwt token", import.meta.env.VITE_PINATA_API_JWT);
+    console.log("jwt token => ", import.meta.env.VITE_PINATA_API_JWT);
     
 
     if (selectedImage)  {
@@ -253,3 +253,8 @@ export default AddProduct
 // 7.  2,2GHz processor.
 // 8. Core i7
 // Shipment is also available on payment. 
+
+// www.facebook.com
+// www.instagram.com
+// www.whatsapp.com
+// www.twitter.com

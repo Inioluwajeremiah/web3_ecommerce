@@ -9,7 +9,8 @@ import TitleText from '../TitleText'
 
 const DashboardRightNav = () => {
 
-    const {account} = useContext(BlockShopContextInstance)
+    const {account, BlockShopContract} = useContext(BlockShopContextInstance)
+
   return (
     <div className='lg:w-[35vw] w-[100%] mx-[auto]'>
         <section id="profile" className='px-2 pt-2 pb-4 shadow-md'>

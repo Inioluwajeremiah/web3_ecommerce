@@ -27,7 +27,8 @@ const BlockShopContext = ({children}) => {
   const [WearsArray, setWearsArray] = useState([])
   const [ElectronicsArray, setElectronicsArray] = useState([]);
   const [AgricultureArray, setAgricultureArray] = useState([]);
-  const [AllproductsArray,  setAllProductsArray] = useState([])
+  const [AllproductsArray,  setAllProductsArray] = useState([]);
+  const [profileData, setProfileData] = useState({});
   
   
   
@@ -55,6 +56,44 @@ const BlockShopContext = ({children}) => {
     // setAccount (getAccountsII[0])
     // console.log("connected account => ", account);
   }
+
+
+  // get all profile
+  const getAllProfile = async () => {
+    try {
+     
+      const profile = await BlockShopContract.profiles(account);
+      console.log("profile index from profile mapping => ", profile );
+      
+      const response = await fetch(profile.profileMetaData);
+      const metadata = await response.json();
+
+      let profileData = { 
+        pimage: profile.profileImageUri,
+        simage: profile.storeImageUri,
+        storeName: profile.storeName,
+        fullName:metadata.fullName, 
+        storeDescription: metadata.storeDescription,
+        facebookLink: metadata.facebookLink,
+        instagramLink: metadata.instagramLink,
+        whatsAppLink: metadata.whatsAppLink,
+        twitterLink: metadata.twitterLink,
+        email: metadata.email,
+        country: metadata.country,
+        state: metadata.state,
+        storeAddress: metadata.storeAddress,
+        category: metadata.category,
+        subcategory: metadata.subcategory,
+        date: metadata.date,
+      }
+      setProfileData(profileData);
+
+      
+    } catch (error) {
+      alert(error)
+    }
+  }
+
 
   // get all products
 
@@ -85,7 +124,7 @@ const BlockShopContext = ({children}) => {
           const discount_price = priceInWei + (priceInWei * metadata.discountPercent/100)
           const priceInEther = ethers.utils.formatEther(discount_price)
 
-          let productItem = { 
+          let profileData = { 
             Id: stagedproduct.id, 
             seller: stagedproduct.productOwnerAccount,
             receivedStatus: stagedproduct.received,
@@ -108,13 +147,13 @@ const BlockShopContext = ({children}) => {
           }
 
           // all products
-          productArray.push(productItem)
+          productArray.push(profileData)
           // get all products under agriculture category
-          if (metadata.category == "agriculture") agricultureArray.push(productItem)
+          if (metadata.category == "agriculture") agricultureArray.push(profileData)
           // get all products under electronics category
-          if (metadata.category == "electronics") electronicsArray.push(productItem)
+          if (metadata.category == "electronics") electronicsArray.push(profileData)
           // get all products under wears category
-          if (metadata.category == "wears") wearsArray.push(productItem)
+          if (metadata.category == "wears") wearsArray.push(profileData)
         }
       }
 
