@@ -27,7 +27,7 @@ const BlockShopContext = ({children}) => {
   const [ElectronicsArray, setElectronicsArray] = useState([]);
   const [AgricultureArray, setAgricultureArray] = useState([]);
   const [AllproductsArray,  setAllProductsArray] = useState([]);
-  
+  const [AllProducts, setAllProducts] = useState([]);
   // const [BlockShopContract, setBlockShopContract] = useState({})
   
   
@@ -82,6 +82,7 @@ const BlockShopContext = ({children}) => {
       let electronicsArray = [];
       let agricultureArray = [];
       let wearsArray= [];
+      let allProducts = [];
 
       for ( let i=1; i<= counter; i++) {
         console.log("for loop", i);
@@ -131,13 +132,53 @@ const BlockShopContext = ({children}) => {
           if (metadata.category == "electronics") electronicsArray.push(productData)
           // get all products under wears category
           if (metadata.category == "wears") wearsArray.push(productData)
+        } // ends if
+
+        else {
+          const response = await fetch(stagedproduct.ownerMetadata);
+          const metadata = await response.json();
+          const totalPrice = await BlockShopContract.GetTotalPrice(stagedproduct.id)
+
+          // format product price
+          const priceInWei =  ethers.utils.parseEther(metadata.productPriceTag)
+          const discount_percent = priceInWei * metadata.discountPercent/100
+          const discount_price = Number(priceInWei) + Number(discount_percent)
+          const priceInEther = ethers.utils.formatEther(discount_price)
+          
+          console.log("context to wei => ", priceInWei.toString());
+          console.log("context normal price =>", metadata.productPriceTag);
+          let allproductData = { 
+            Id: stagedproduct.id, 
+            seller: stagedproduct.productOwnerAccount,
+            receivedStatus: stagedproduct.received,
+            deliveredStatus: stagedproduct.delivered,
+            soldStatus: stagedproduct.productStatus,
+            productName:metadata.productName, 
+            productDescription: metadata.productDescription,
+            productPriceTag: priceInEther,
+            productDiscountPercent: metadata.discountPercent,
+            productDiscountPrice: metadata.productPriceTag,
+            productTotalPrice: totalPrice,
+            productNoPieces: metadata.productQuantity,
+            fImage: metadata.imageFrontView,
+            lImage: metadata.imageLeftView,
+            rImage: metadata.imageRightView,
+            topImage: metadata.imageTopView,
+            rearImage: metadata.imageRearView,
+            category: metadata.category,
+            subcategory: metadata.subcategory,
+            date: metadata.date
+          }
+          allProducts.push(allproductData)
         }
-      }
+
+      } // ends for
 
       setAgricultureArray(agricultureArray);
       setElectronicsArray(electronicsArray);
       setWearsArray(wearsArray);
       setAllProductsArray(productArray);
+      setAllProducts(allProducts)
       setLoadingData(false)
 
       console.log("agric array => ", agricultureArray);
@@ -159,7 +200,7 @@ const BlockShopContext = ({children}) => {
     <BlockShopContextInstance.Provider  
       value = {{ 
         account, BlockShopContract, ConnectAccount, AgricultureArray, 
-        ElectronicsArray, WearsArray, AllproductsArray, loading 
+        ElectronicsArray, WearsArray, AllproductsArray, loading, AllProducts 
       }}>
       {children}
     </BlockShopContextInstance.Provider>

@@ -72,7 +72,6 @@ const DashboardRightNav = () => {
                 </div>
             </div>
         </section>
-
         
         <section id='hotdeals' className='mt-8 px-2 pt-2 pb-4 shadow-md'>
             <TitleText title = "Top Deals"/>
@@ -83,7 +82,7 @@ const DashboardRightNav = () => {
                     productName={item.productName}
                     date = {item.date}
                     subcategory = {item.subcategory}
-                    profuctQuantity ={item.productNoPieces}
+                    productQuantity ={item.productNoPieces}
                     productDiscountPercent={item.productDiscountPercent}
                     catData={AllproductsArray}
                 />
@@ -92,7 +91,7 @@ const DashboardRightNav = () => {
 
         <section id='bulksales' className='mt-8 px-2 pt-2 pb-4 shadow-md'>
             <TitleText title = "Bulk Sales"/>
-            {AllproductsArray.filter((item) => item.productNoPieces >= 11).slice(0,9).map((item, index) => 
+            {AllproductsArray.filter((item) => item.productNoPieces >= 300).slice(0,9).map((item, index) => 
                 <TopDealsCard key={index}
                     index={index} 
                     id={item.Id}
@@ -100,7 +99,7 @@ const DashboardRightNav = () => {
                     productName={item.productName}
                     date = {item.date}
                     subcategory = {item.subcategory}
-                    profuctQuantity ={item.productNoPieces}
+                    productQuantity ={item.productNoPieces}
                     productDiscountPercent={item.productDiscountPercent}
                     catData={AllproductsArray}
                 />
