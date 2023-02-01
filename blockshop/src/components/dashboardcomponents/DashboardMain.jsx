@@ -1,3 +1,4 @@
+import { ethers } from 'ethers'
 import React from 'react'
 import { useContext } from 'react'
 import {FcElectronics} from 'react-icons/fc'
@@ -52,7 +53,13 @@ const TableRow = ({no, name, category, subcategory, price, quantity, status, buy
         
     ]
 
-    const ProductsData = AllProducts.filter((item) => item.seller == account);
+    const ProductsData = AllProducts.filter((item) => { 
+        // console.log('Filtered by seller address => ', ethers.utils.getAddress(item.seller))
+        // console.log('Filtered by account address => ', ethers.utils.getAddress(account))
+        ethers.utils.getAddress(item.seller) == ethers.utils.getAddress(account)
+    }
+    );
+    console.log("Filtered by address product daata => ",ProductsData);
   return (
     <div className=' w-full'>
         <section id='analytics' className='mx-4 shadow-lg p-4 mt-12 border-[1px] border-[#ddd]'>

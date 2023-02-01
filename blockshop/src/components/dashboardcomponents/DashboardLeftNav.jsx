@@ -44,7 +44,7 @@ const DashboardLeftNav = () => {
                 <p className="lg:hidden" onClick={CloseMenu} id="close-icon">{<AiOutlineClose/>}</p>
             </div>
             <ul className='overflow-y-scroll p-4 max-h-[70%] shadow-lg w-full' >
-                <LinkList icon={<AiOutlineHome/>} title="Home" link=""/>
+                <LinkList icon={<AiOutlineHome/>} title="Home" link="/"/>
                 <LinkList icon={<GiFarmTractor/>} title="Agriculture" link="/agriculture" catname="Agriculture" />
                 <LinkList icon={<FcElectronics/>} title="Electronics" link="/electronics" catname="Bsiness"/>
                 <LinkList icon={<GiClothes/>} title="Wears" link="/wears" catname="Climate"/>

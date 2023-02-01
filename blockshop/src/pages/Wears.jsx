@@ -43,7 +43,6 @@ const Wears = () => {
           ) 
         } 
         </section>
-
         <SectionComponent linkid="corperate" dataToMap={corporate} title="Corporate Wears" /> 
         <SectionComponent linkid="native" dataToMap={native} title="Native Wears" /> 
         <SectionComponent linkid="casual" dataToMap={casual} title="Casual Wears" /> 

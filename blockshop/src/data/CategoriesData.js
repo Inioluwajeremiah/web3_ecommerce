@@ -88,6 +88,13 @@ export const AgricultureCategories = [
 
 export const MajorCategories = [
     {
+        name: "",
+        value: "",
+        image: "",
+        description: ""
+    },
+
+    {
         name: "Agriculture",
         value: "agriculture",
         image: "/public/images/agriculture.jpg",

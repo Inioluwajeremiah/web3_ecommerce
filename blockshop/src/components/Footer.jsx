@@ -4,16 +4,16 @@ import logo from '../../public/images/blockshop.png'
 
 const Footer = () => {
   return (
-    <div className='h-[300px] w-full flex  items-center justify-around lg:flex-row  lg:items-center gap-2 p-4 bg-[#330066] text-white text-[1rem]'>
+    <div className='h-[300px] max-w-[100%] w-full flex  items-center justify-around lg:flex-row  lg:items-center gap-2 p-4 bg-[#330066] text-white text-[1rem]'>
       
-      <div className='flex flex-row gap-2 lg:inline block items-center'>
+      <div className='flex flex-col md:flex-row gap-2 lg:inline block items-center'>
         <div className='h-24 w-24'>
           <img src={logo} alt="" />
         </div>
         <p>Block<span>Shop</span></p>
       </div>
 
-      <div>
+      <div className='max-w-[100%]'>
         <div className='p-2'>
           <p>Personal Portfolio</p>
           <p>BlockShop</p>
