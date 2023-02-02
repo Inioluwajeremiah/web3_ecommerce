@@ -84,7 +84,7 @@ const BlockShopContext = ({children}) => {
       let wearsArray= [];
       let allProducts = [];
 
-      for ( let i=1; i<= counter; i++) {
+      for ( let i=1; i<= 19; i++) {
         console.log("for loop", i);
         const stagedproduct = await BlockShopContract.Stagedproducts(i);
         console.log("item index from Stagedproducts mapping => ", stagedproduct );
@@ -96,12 +96,19 @@ const BlockShopContext = ({children}) => {
 
           // format product price
           const priceInWei =  ethers.utils.parseEther(metadata.productPriceTag)
-          const discount_percent = priceInWei * metadata.discountPercent/100
-          const discount_price = Number(priceInWei) + Number(discount_percent)
-          const priceInEther = ethers.utils.formatEther(discount_price)
+          const discount_percent = priceInWei * (metadata.discountPercent/100)
+          // NB discount_price/priceInEther = total price before discount
+          const totalPriceBeforeDiscount = Number(priceInWei) + Number(discount_percent)
+          const priceInEther = ethers.utils.formatEther(totalPriceBeforeDiscount.toString())
           
-          console.log("context to wei => ", priceInWei.toString());
-          console.log("context normal price =>", metadata.productPriceTag);
+          console.log("discount price => ", Number(priceInWei) + Number(discount_percent));
+          // 28000000000000000
+          // 3210000000000
+          // 2790000000000
+          // 210000000000.00003
+          
+          // console.log("context to wei => ", priceInWei.toString());
+          // console.log("context normal price =>", metadata.productPriceTag);
           let productData = { 
             Id: stagedproduct.id, 
             seller: stagedproduct.productOwnerAccount,
@@ -110,9 +117,11 @@ const BlockShopContext = ({children}) => {
             productName:metadata.productName, 
             productDescription: metadata.productDescription,
             productPriceTag: priceInEther,
+            // productPriceTag: metadata.productPriceTag,
             productDiscountPercent: metadata.discountPercent,
             productDiscountPrice: metadata.productPriceTag,
             productTotalPrice: totalPrice,
+            // productTotalPrice: metadata.productPriceTag,
             productNoPieces: metadata.productQuantity,
             fImage: metadata.imageFrontView,
             lImage: metadata.imageLeftView,
@@ -141,12 +150,13 @@ const BlockShopContext = ({children}) => {
 
           // format product price
           const priceInWei =  ethers.utils.parseEther(metadata.productPriceTag)
-          const discount_percent = priceInWei * metadata.discountPercent/100
-          const discount_price = Number(priceInWei) + Number(discount_percent)
-          const priceInEther = ethers.utils.formatEther(discount_price)
+          const discount_percent = priceInWei * (metadata.discountPercent/100)
+          // NB discount_price/priceInEther = total price before discount
+          const totalPriceBeforeDiscount = Number(priceInWei) + Number(discount_percent)
+          const priceInEther = ethers.utils.formatEther(totalPriceBeforeDiscount.toString())
           
-          console.log("context to wei => ", priceInWei.toString());
-          console.log("context normal price =>", metadata.productPriceTag);
+          // console.log("context to wei => ", priceInWei.toString());
+          // console.log("context normal price =>", metadata.productPriceTag);
           let allproductData = { 
             Id: stagedproduct.id, 
             seller: stagedproduct.productOwnerAccount,
@@ -183,6 +193,7 @@ const BlockShopContext = ({children}) => {
 
       console.log("agric array => ", agricultureArray);
       console.log('electronicsarray => ', electronicsArray);
+      console.log('wearssarray => ', wearsArray);
       
     } catch (error) {
       alert(error) 

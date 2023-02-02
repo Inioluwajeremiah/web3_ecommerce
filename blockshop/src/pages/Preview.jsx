@@ -79,7 +79,7 @@ const Preview = () => {
         
         const uri = "https://gateway.pinata.cloud/ipfs/" + result.data.IpfsHash;
         // buy product function
-        await BlockShopContract.BuyProduct(id, uri, {value: total_price});    
+        await BlockShopContract.BuyProduct(id, uri, {value: total_price.toString()});    
         alert("Item purchase successfull")    
       } catch (error) {
         alert(error)
