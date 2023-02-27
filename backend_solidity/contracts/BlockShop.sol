@@ -3,21 +3,24 @@ pragma solidity ^0.8.17;
 
 contract BlockShop {
 
+    // state variables
     uint public productCounter;
     address payable public immutable contractOwnerAccount;
     uint public immutable chargedFeePercentage;
 
+    // constructor
      constructor(uint _chargedFeePercentage) {
         contractOwnerAccount = payable(msg.sender);
         chargedFeePercentage = _chargedFeePercentage;
     }
 
-    // STRUCTS
+    // STRUCTS for buyer or seller profile
     struct Profile {
         address profileAddress;
         string profileMetaData;
     }
 
+    // create struct for staged product
     struct StageProduct {
         uint id;
         address payable productOwnerAccount;
@@ -28,18 +31,20 @@ contract BlockShop {
         bool delivered;
     }
 
+    // create struct for purchased products 
     struct PurchaseProduct {
         uint id;
         string buyerMetadata;
     }
 
+    // create struct for cart
     struct Cart {
         uint productId;
         address payable sellerAddress;
         address payable buyerAddress;
     }
 
-    // EVENTS
+    // create event for staged product
     event StageProductEvent  (
         uint id,
         address payable productOwnerAccount,
@@ -47,6 +52,7 @@ contract BlockShop {
         string ownerMetadata
     );
 
+    // create event purchased product
     event PurchaseProductEvent (
         uint id,
         address productOwnerAccount,
@@ -55,7 +61,10 @@ contract BlockShop {
         string buyerMetadata,
         bool status
     );
+    // create event for profile
     event ProfileEvent (address profileAddress, string ProfileMetaData);
+    
+    // create event for cart
     event CartEvent (uint _id, address payable seller, address payable buyer);
     
     // MAPPINGS
@@ -128,17 +137,14 @@ contract BlockShop {
     //     return Purchasedproducts[_productId][itemId];
     // }
     
+    // create function to get product
     function getProducts(uint _productId) public view returns (PurchaseProduct[] memory) {
         return Purchasedproducts[_productId];
     }
 
+    //  create function for cart
     function ProductCart (uint _id, address payable _selleraddress) public {
         cartItems[msg.sender] = Cart(_id, _selleraddress, payable(msg.sender));
-        emit CartEvent(_id, _selleraddress, payable(msg.sender) );
-        
-    
+        emit CartEvent(_id, _selleraddress, payable(msg.sender) );   
     }
 }
-
-
-// buyer metadata should include rating and comment
