@@ -7,3 +7,5 @@
  3. Hardhat
  4. React JS
  5. Solidity Programming Language
+
+Live link: https://web3-ecommerce-kappa.vercel.app/wears
